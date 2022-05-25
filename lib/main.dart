@@ -40,16 +40,16 @@ class MyApp extends StatelessWidget {
               ],
             ),
             splashIconSize: 140,
-            nextScreen: const MyHomePage(title: "Sanchari"),
+            nextScreen: const MyHomePage(),
             splashTransition: SplashTransition.fadeTransition,
             backgroundColor: const Color(0xffE3002C)));
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({Key? key}) : super(key: key);
 
-  final String title;
+  final String title = "Sanchari";
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();

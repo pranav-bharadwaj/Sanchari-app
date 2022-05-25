@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:sanchari/constants.dart';
+import 'package:sanchari/editProfile.dart';
+import 'package:sanchari/home.dart';
+import 'package:sanchari/locationSearch.dart';
+import 'package:sanchari/main.dart';
+import 'package:sanchari/passwordReset.dart';
 
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
@@ -59,8 +64,16 @@ class Profile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(width: kSpacingUnit.w * 3),
-            Icon(LineAwesomeIcons.arrow_left,
-                size: ScreenUtil().setSp(kSpacingUnit.w * 3)),
+            GestureDetector(
+              onTap: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MyHomePage()),
+                )
+              },
+              child: Icon(LineAwesomeIcons.arrow_left,
+                  size: ScreenUtil().setSp(kSpacingUnit.w * 3)),
+            ),
             profileInfo,
             Icon(LineAwesomeIcons.sun,
                 size: ScreenUtil().setSp(kSpacingUnit.w * 3)),
@@ -72,13 +85,30 @@ class Profile extends StatelessWidget {
         Expanded(
             child: ListView(
           children: [
-            ProfileListItem(
-              icon: LineAwesomeIcons.edit,
-              text: 'Edit Profile',
+            GestureDetector(
+              onTap: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const EditProfile()),
+                )
+              },
+              child: ProfileListItem(
+                icon: LineAwesomeIcons.edit,
+                text: 'Edit Profile',
+              ),
             ),
-            ProfileListItem(
-              icon: LineAwesomeIcons.lock,
-              text: 'Password Reset',
+            GestureDetector(
+              onTap: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const PasswordReset()),
+                )
+              },
+              child: ProfileListItem(
+                icon: LineAwesomeIcons.lock,
+                text: 'Password Reset',
+              ),
             ),
             ProfileListItem(
               icon: LineAwesomeIcons.question_circle,

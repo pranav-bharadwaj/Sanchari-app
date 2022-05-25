@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:sanchari/locationSearch.dart';
 
 class Notifications extends StatelessWidget {
   const Notifications({Key? key}) : super(key: key);
@@ -11,7 +12,24 @@ class Notifications extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            Card(
+            GestureDetector(
+              onTap: () => {
+                 Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LocationSearch()),
+                )
+              },
+              child: Card(
+              
+              child: ListTile(title: Text("Location search")),
+              color: Colors.green,
+              elevation: 8,
+              shadowColor: Colors.grey,
+              margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
+            ),
+            )
+            ,Card(
+              
               child: ListTile(title: Text("Notoifaction 1")),
               color: Colors.green,
               elevation: 8,
