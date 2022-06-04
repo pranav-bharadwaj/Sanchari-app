@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:sanchari/constants.dart';
+import 'package:sanchari/contactUs.dart';
 import 'package:sanchari/editProfile.dart';
-import 'package:sanchari/home.dart';
-import 'package:sanchari/locationSearch.dart';
 import 'package:sanchari/main.dart';
 import 'package:sanchari/passwordReset.dart';
 
@@ -42,12 +41,12 @@ class Profile extends StatelessWidget {
           ),
           SizedBox(height: kSpacingUnit.w * 2),
           Text(
-            'Pranav bharawaj',
+            'MONU',
             style: kTitleTextStyle,
           ),
           SizedBox(height: kSpacingUnit.w * 0.5),
           Text(
-            'pranavbharadwaj2001@gmail.com',
+            'monu2001@gmail.com',
             style: kCaptionTextStyle,
           ),
         ],
@@ -114,9 +113,17 @@ class Profile extends StatelessWidget {
               icon: LineAwesomeIcons.question_circle,
               text: 'Help & Support',
             ),
-            ProfileListItem(
-              icon: LineAwesomeIcons.cog,
-              text: 'Settings',
+            GestureDetector(
+              onTap: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ContactUs()),
+                )
+              },
+              child: ProfileListItem(
+                icon: LineAwesomeIcons.cog,
+                text: 'Contact Us',
+              ),
             ),
             ProfileListItem(
               icon: LineAwesomeIcons.user_plus,
