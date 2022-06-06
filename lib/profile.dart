@@ -5,7 +5,6 @@ import 'package:sanchari/constants.dart';
 import 'package:sanchari/contactUs.dart';
 import 'package:sanchari/editProfile.dart';
 import 'package:sanchari/feedback.dart';
-import 'package:sanchari/main.dart';
 import 'package:sanchari/passwordReset.dart';
 
 import 'package:share/share.dart';
@@ -68,10 +67,7 @@ class Profile extends StatelessWidget {
             SizedBox(width: kSpacingUnit.w * 3),
             GestureDetector(
               onTap: () => {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const MyHomePage()),
-                )
+                Navigator.pop(context),
               },
               child: Icon(LineAwesomeIcons.arrow_left,
                   size: ScreenUtil().setSp(kSpacingUnit.w * 3)),

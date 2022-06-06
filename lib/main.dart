@@ -4,7 +4,6 @@ import 'package:sanchari/constants.dart';
 import 'package:sanchari/profile.dart';
 import 'package:sanchari/search.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
 import 'package:sanchari/home.dart';
 import 'package:sanchari/notifications.dart';
 
