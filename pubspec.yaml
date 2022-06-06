@@ -40,6 +40,8 @@ dependencies:
   flutter_screenutil: ^5.4.0+1
   animated_theme_switcher: ^2.0.6
   google_place: ^0.4.7
+  firebase_core: ^1.17.1
+  firebase_auth: ^3.3.19
 
 dev_dependencies:
   flutter_test:
