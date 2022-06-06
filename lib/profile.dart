@@ -4,8 +4,11 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:sanchari/constants.dart';
 import 'package:sanchari/contactUs.dart';
 import 'package:sanchari/editProfile.dart';
+import 'package:sanchari/feedback.dart';
 import 'package:sanchari/main.dart';
 import 'package:sanchari/passwordReset.dart';
+
+import 'package:share/share.dart';
 
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
@@ -109,9 +112,17 @@ class Profile extends StatelessWidget {
                 text: 'Password Reset',
               ),
             ),
-            ProfileListItem(
-              icon: LineAwesomeIcons.question_circle,
-              text: 'Help & Support',
+            GestureDetector(
+              onTap: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const FeedBack()),
+                )
+              },
+              child: ProfileListItem(
+                icon: LineAwesomeIcons.question_circle,
+                text: 'Feedback',
+              ),
             ),
             GestureDetector(
               onTap: () => {
@@ -121,13 +132,20 @@ class Profile extends StatelessWidget {
                 )
               },
               child: ProfileListItem(
-                icon: LineAwesomeIcons.cog,
+                icon: LineAwesomeIcons.phone,
                 text: 'Contact Us',
               ),
             ),
-            ProfileListItem(
-              icon: LineAwesomeIcons.user_plus,
-              text: 'Invite a Friend',
+            GestureDetector(
+              onTap: () => {
+                Share.share(
+                    'Hey! Check out this new app Sanchari https://github.com/Sanchari4us/Sanchari',
+                    subject: 'Sanchari app'),
+              },
+              child: ProfileListItem(
+                icon: LineAwesomeIcons.user_plus,
+                text: 'Invite a Friend',
+              ),
             ),
             ProfileListItem(
               icon: LineAwesomeIcons.alternate_sign_out,

@@ -1,23 +1,34 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
 
-class  extends StatefulWidget {
+import 'package:flutter/material.dart';
+import 'package:sanchari/profile.dart';
+class Login extends StatefulWidget {
+  const Login({Key? key}) : super(key: key);
+
   @override
-  _State createState() => _State();
+  State<Login> createState() => _LoginState();
 }
 
-class _State extends State<> {
+class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
-    // top headlines and subheadlines
-    const headline = const Container(
-    child: const Row(
-      children: [
-        
-],
-),
-    )
-    return Container(
-
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Sanchari"),
+        backgroundColor: const Color(0xffE3002C),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Profile()),
+                );
+              },
+              icon: const Icon(Icons.person)),
+        ],
+      ),
     );
   }
 }
