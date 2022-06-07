@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -7,7 +9,7 @@ const kDarkPrimaryColor = Color(0xFF212121);
 const kDarkSecondaryColor = Color(0xFF373737);
 const kLightPrimaryColor = Color(0xFFFFFFFF);
 const kLightSecondaryColor = Color(0xFFF3F7FB);
-const kAccentColor = Color(0xFFFFC107);
+const kAccentColor = Color(0xffE3002C);
 
 final kTitleTextStyle = TextStyle(
   fontSize: ScreenUtil().setSp(kSpacingUnit.w * 1.7),
@@ -16,7 +18,7 @@ final kTitleTextStyle = TextStyle(
 
 final kCaptionTextStyle = TextStyle(
   fontSize: ScreenUtil().setSp(kSpacingUnit.w * 1.3),
-  fontWeight: FontWeight.w100,
+  fontWeight: FontWeight.w400,
 );
 
 final kButtonTextStyle = TextStyle(

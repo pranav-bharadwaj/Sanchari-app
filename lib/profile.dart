@@ -1,3 +1,4 @@
+import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -5,14 +6,11 @@ import 'package:sanchari/constants.dart';
 import 'package:sanchari/contactUs.dart';
 import 'package:sanchari/editProfile.dart';
 import 'package:sanchari/feedback.dart';
-import 'package:sanchari/main.dart';
 import 'package:sanchari/passwordReset.dart';
 
 import 'package:share/share.dart';
 
 class Profile extends StatelessWidget {
-  const Profile({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
@@ -27,30 +25,21 @@ class Profile extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: kSpacingUnit.w * 5,
-                  backgroundImage: AssetImage("assets/sanchari.jpeg"),
+                  backgroundImage: NetworkImage("https://drive.google.com/uc?id=1YkIrSlu7_sApI4lAqzai9LOozh5KThQO&export=download"),
                 ),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: Container(
-                    height: kSpacingUnit.w * 2.5,
-                    width: kSpacingUnit.w * 2.5,
-                    child: Icon(LineAwesomeIcons.pen,
-                        color: kDarkPrimaryColor,
-                        size: ScreenUtil().setSp(kSpacingUnit.w * 1.5)),
-                  ),
-                )
+              
               ],
             ),
           ),
-          SizedBox(height: kSpacingUnit.w * 2),
+          SizedBox(height: kSpacingUnit.w * 1.5),
           Text(
-            'MONU',
+            'Monika B A',
             style: kTitleTextStyle,
           ),
           SizedBox(height: kSpacingUnit.w * 0.5),
           Text(
             'monu2001@gmail.com',
-            style: kCaptionTextStyle,
+            style: TextStyle(fontSize: ScreenUtil().setSp(kSpacingUnit.w * 1.3), fontWeight: FontWeight.w300),
           ),
         ],
       ),
@@ -68,17 +57,18 @@ class Profile extends StatelessWidget {
             SizedBox(width: kSpacingUnit.w * 3),
             GestureDetector(
               onTap: () => {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const MyHomePage()),
-                )
+                Navigator.pop(context),
               },
               child: Icon(LineAwesomeIcons.arrow_left,
                   size: ScreenUtil().setSp(kSpacingUnit.w * 3)),
             ),
             profileInfo,
-            Icon(LineAwesomeIcons.sun,
-                size: ScreenUtil().setSp(kSpacingUnit.w * 3)),
+            GestureDetector(
+                onTap: () => {print("HI")},
+                child: ThemeSwitcher(
+                  builder: (context) => Icon(LineAwesomeIcons.sun,
+                      size: ScreenUtil().setSp(kSpacingUnit.w * 3)),
+                )),
             SizedBox(
               width: kSpacingUnit.w * 3,
             ),
@@ -188,6 +178,13 @@ class ProfileListItem extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(kSpacingUnit.w * 3),
         color: Theme.of(context).backgroundColor,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey,
+            offset: Offset(0.0, 1.0), //(x,y)
+            blurRadius: 1.0,
+          ),
+        ],
       ),
       child: Row(
         children: <Widget>[

@@ -4,7 +4,6 @@ import 'package:sanchari/constants.dart';
 import 'package:sanchari/profile.dart';
 import 'package:sanchari/search.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
 import 'package:sanchari/home.dart';
 import 'package:sanchari/notifications.dart';
 
@@ -21,10 +20,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final bool isLightMode =
+        Theme.of(context).brightness == Brightness.light ? true : false;
+
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Sanchari',
-        theme: kLightTheme,
+        theme: isLightMode ? kLightTheme : kDarkTheme,
         home: AnimatedSplashScreen(
             duration: 2000,
             splash: Column(
@@ -84,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const Profile()),
+                  MaterialPageRoute(builder: (context) => Profile()),
                 );
               },
               icon: const Icon(Icons.person)),
