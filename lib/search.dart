@@ -59,7 +59,7 @@ class Search extends StatelessWidget {
                       ],
                     ),
                     Container(
-                        margin: const EdgeInsets.only(left: 10.0, right: 20.0),
+                        margin: const EdgeInsets.only(left: 15.0, right: 15.0),
                         child: Divider(
                           color: Colors.black,
                           height: 20,

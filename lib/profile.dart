@@ -25,30 +25,21 @@ class Profile extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: kSpacingUnit.w * 5,
-                  backgroundImage: AssetImage("assets/sanchari.jpeg"),
+                  backgroundImage: NetworkImage("https://drive.google.com/uc?id=1YkIrSlu7_sApI4lAqzai9LOozh5KThQO&export=download"),
                 ),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: Container(
-                    height: kSpacingUnit.w * 2.5,
-                    width: kSpacingUnit.w * 2.5,
-                    child: Icon(LineAwesomeIcons.pen,
-                        color: kDarkPrimaryColor,
-                        size: ScreenUtil().setSp(kSpacingUnit.w * 1.5)),
-                  ),
-                )
+              
               ],
             ),
           ),
-          SizedBox(height: kSpacingUnit.w * 2),
+          SizedBox(height: kSpacingUnit.w * 1.5),
           Text(
-            'MONU',
+            'Monika B A',
             style: kTitleTextStyle,
           ),
           SizedBox(height: kSpacingUnit.w * 0.5),
           Text(
             'monu2001@gmail.com',
-            style: kCaptionTextStyle,
+            style: TextStyle(fontSize: ScreenUtil().setSp(kSpacingUnit.w * 1.3), fontWeight: FontWeight.w300),
           ),
         ],
       ),

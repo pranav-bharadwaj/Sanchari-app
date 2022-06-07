@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sanchari/constants.dart';
 
 class FeedBack extends StatefulWidget {
   const FeedBack({Key? key}) : super(key: key);
@@ -21,6 +22,9 @@ class _FeedBackState extends State<FeedBack> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Theme.of(context).brightness == Brightness.light
+            ? kLightSecondaryColor
+            : kDarkPrimaryColor,
         appBar: AppBar(
           title: Text('Feedback'),
           backgroundColor: const Color(0xffE3002C),
