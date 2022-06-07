@@ -33,33 +33,76 @@ class Search extends StatelessWidget {
                 elevation: 5,
               )),
           Expanded(
-              child: ListView.builder(
-                  itemCount: 30,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(5))),
-                      child: ListTile(
-                        leading: Icon(
-                          Icons.directions_bus_rounded,
-                          size: 40.0,
+            child: Card(
+                elevation: 8,
+                margin: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 0.0),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(35),
+                        topRight: Radius.circular(35))),
+                child: Column(
+                  children: [
+                    SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(width: 20),
+                        Icon(
+                          Icons.history,
+                          size: 30.0,
                         ),
-                        title: Text("KA - 13 F-3456"),
-                        subtitle: Text("Hassan - Sakleshpur"),
-                        trailing: IconButton(
-                          onPressed: () {
-                            print(Theme.of(context).brightness ==
-                                Brightness.light);
-                          },
-                          icon: Icon(Icons.directions),
-                          color: Colors.blue,
-                          iconSize: 40.0,
-                        ),
-                      ),
-                      elevation: 8,
-                      margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                    );
-                  }))
+                        SizedBox(width: 8),
+                        Text(
+                          "Recent",
+                          style: TextStyle(fontSize: 20),
+                        )
+                      ],
+                    ),
+                    Container(
+                        margin: const EdgeInsets.only(left: 10.0, right: 20.0),
+                        child: Divider(
+                          color: Colors.black,
+                          height: 20,
+                        )),
+                    Expanded(
+                      child: ListView.builder(
+                          itemCount: 30,
+                          itemBuilder: (context, index) {
+                            return Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(7))),
+                              child: ListTile(
+                                leading: Container(
+                                  height: double.infinity,
+                                  child: Icon(
+                                    Icons.directions_bus_rounded,
+                                    size: 40.0,
+                                  ),
+                                ),
+                                title: Text("KA - 13 F-3456"),
+                                subtitle: Text("Hassan - Sakleshpur"),
+                                trailing: Container(
+                                  height: double.infinity,
+                                  child: IconButton(
+                                    onPressed: () {
+                                      print(Theme.of(context).brightness ==
+                                          Brightness.light);
+                                    },
+                                    icon: Icon(Icons.directions),
+                                    color: Colors.blue,
+                                    iconSize: 40.0,
+                                  ),
+                                ),
+                              ),
+                              elevation: 10,
+                              margin: EdgeInsets.fromLTRB(20, 8, 20, 8),
+                            );
+                          }),
+                    )
+                  ],
+                )),
+          )
         ]));
   }
 }
