@@ -36,7 +36,9 @@ class _LocationSearchState extends State<LocationSearch> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kLightSecondaryColor,
+      backgroundColor: Theme.of(context).brightness == Brightness.light
+          ? kLightSecondaryColor
+          : kDarkPrimaryColor,
       appBar: AppBar(
         title: Text("Search Bus"),
         backgroundColor: const Color(0xffE3002C),
@@ -55,7 +57,10 @@ class _LocationSearchState extends State<LocationSearch> {
                       hintStyle: const TextStyle(
                           fontWeight: FontWeight.w400, fontSize: 18),
                       filled: true,
-                      fillColor: Colors.white,
+                      fillColor:
+                          Theme.of(context).brightness == Brightness.light
+                              ? kLightPrimaryColor
+                              : kDarkSecondaryColor,
                       border: InputBorder.none),
                   onChanged: (value) {
                     if (value.isNotEmpty) {
@@ -64,7 +69,6 @@ class _LocationSearchState extends State<LocationSearch> {
                   }),
               color: Colors.white,
               elevation: 5,
-              shadowColor: Colors.grey,
             ),
             SizedBox(
               height: 10,
@@ -79,12 +83,13 @@ class _LocationSearchState extends State<LocationSearch> {
                     hintStyle: const TextStyle(
                         fontWeight: FontWeight.w400, fontSize: 18),
                     filled: true,
-                    fillColor: Colors.white,
+                    fillColor: Theme.of(context).brightness == Brightness.light
+                        ? kLightPrimaryColor
+                        : kDarkSecondaryColor,
                     border: InputBorder.none),
               ),
               color: Colors.white,
               elevation: 5,
-              shadowColor: Colors.grey,
             )
           ],
         ),

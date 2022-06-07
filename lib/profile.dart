@@ -1,3 +1,4 @@
+import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -10,8 +11,6 @@ import 'package:sanchari/passwordReset.dart';
 import 'package:share/share.dart';
 
 class Profile extends StatelessWidget {
-  const Profile({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
@@ -73,8 +72,12 @@ class Profile extends StatelessWidget {
                   size: ScreenUtil().setSp(kSpacingUnit.w * 3)),
             ),
             profileInfo,
-            Icon(LineAwesomeIcons.sun,
-                size: ScreenUtil().setSp(kSpacingUnit.w * 3)),
+            GestureDetector(
+                onTap: () => {print("HI")},
+                child: ThemeSwitcher(
+                  builder: (context) => Icon(LineAwesomeIcons.sun,
+                      size: ScreenUtil().setSp(kSpacingUnit.w * 3)),
+                )),
             SizedBox(
               width: kSpacingUnit.w * 3,
             ),

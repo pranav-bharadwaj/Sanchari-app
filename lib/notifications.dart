@@ -13,7 +13,7 @@ class Notifications extends StatelessWidget {
         List<String>.generate(50, (i) => "Notification : $i");
 
     return Scaffold(
-      backgroundColor: kLightSecondaryColor,
+      backgroundColor: Theme.of(context).brightness == Brightness.light ? kLightSecondaryColor : kDarkPrimaryColor,
       body: ListView.builder(
           itemCount: notifications.length,
           itemBuilder: (context, index) {
@@ -29,9 +29,8 @@ class Notifications extends StatelessWidget {
                   child: ListTile(
                     title: Text('${notifications[index]}'),
                   ),
-                  color: Colors.white,
+                  // color: Colors.white,
                   elevation: 8,
-                  shadowColor: Colors.grey,
                   margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
                 ));
           }),

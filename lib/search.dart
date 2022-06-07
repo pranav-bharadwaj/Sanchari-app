@@ -8,10 +8,12 @@ class Search extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: kLightSecondaryColor,
+        backgroundColor: Theme.of(context).brightness == Brightness.light
+            ? kLightSecondaryColor
+            : kDarkPrimaryColor,
         body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Padding(
-              padding: EdgeInsets.all(20.0),
+              padding: EdgeInsets.all(15.0),
               child: Card(
                 child: TextField(
                   controller: _busNumberController,
@@ -22,12 +24,13 @@ class Search extends StatelessWidget {
                       hintStyle: const TextStyle(
                           fontWeight: FontWeight.w400, fontSize: 18),
                       filled: true,
-                      fillColor: Colors.white,
+                      fillColor:
+                          Theme.of(context).brightness == Brightness.light
+                              ? kLightPrimaryColor
+                              : kDarkSecondaryColor,
                       border: InputBorder.none),
                 ),
-                color: Colors.white,
                 elevation: 5,
-                shadowColor: Colors.grey,
               )),
           Expanded(
               child: ListView.builder(
@@ -45,16 +48,15 @@ class Search extends StatelessWidget {
                         subtitle: Text("Hassan - Sakleshpur"),
                         trailing: IconButton(
                           onPressed: () {
-                            print("hi");
+                            print(Theme.of(context).brightness ==
+                                Brightness.light);
                           },
                           icon: Icon(Icons.directions),
                           color: Colors.blue,
                           iconSize: 40.0,
                         ),
                       ),
-                      color: Colors.white,
                       elevation: 8,
-                      shadowColor: Colors.grey,
                       margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
                     );
                   }))
