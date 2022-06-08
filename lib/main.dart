@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:sanchari/Providers/darkTheme_provider.dart';
 import 'package:sanchari/constants.dart';
-import 'package:sanchari/profile.dart';
-import 'package:sanchari/search.dart';
+import 'package:sanchari/UI/profile.dart';
+import 'package:sanchari/UI/search.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:sanchari/home.dart';
-import 'package:sanchari/notifications.dart';
+import 'package:sanchari/UI/home.dart';
+import 'package:sanchari/UI/notifications.dart';
+import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  runApp(MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => DarkTheme()),
+  ], child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -20,13 +24,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    final bool isLightMode =
-        Theme.of(context).brightness == Brightness.light ? true : false;
+    // final bool isLightMode =
+        // Theme.of(context).brightness == Brightness.light ? true : false;
 
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Sanchari',
-        theme: isLightMode ? kLightTheme : kDarkTheme,
+        theme: context.watch<DarkTheme>().isLightMode ? kLightTheme : kDarkTheme,
         home: AnimatedSplashScreen(
             duration: 2000,
             splash: Column(

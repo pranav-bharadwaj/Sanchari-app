@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:sanchari/constants.dart';
-import 'package:sanchari/locationSearch.dart';
+import 'package:sanchari/UI/locationSearch.dart';
 
 class Notifications extends StatelessWidget {
   const Notifications({Key? key}) : super(key: key);
@@ -19,9 +19,16 @@ class Notifications extends StatelessWidget {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 25,),
-            Text("Notifications", style: TextStyle(fontSize: 30),),
-            SizedBox(height: 5,),
+            SizedBox(
+              height: 25,
+            ),
+            Text(
+              "Notifications",
+              style: TextStyle(fontSize: 30),
+            ),
+            SizedBox(
+              height: 5,
+            ),
             Expanded(
               child: ListView.builder(
                   itemCount: notifications.length,
@@ -40,14 +47,12 @@ class Notifications extends StatelessWidget {
                           padding: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
                           child: Text(
                             '${notifications[index]}',
-                            style: TextStyle(color: kDarkPrimaryColor),
                           ),
                         ),
                         subtitle: Padding(
                           padding: EdgeInsets.fromLTRB(0.0, 0.0, 5.0, 5.0),
                           child: Text(
                             "A card is a sheet used to represent the information related to each other, such as an album",
-                            style: TextStyle(color: kDarkSecondaryColor),
                           ),
                         ),
                         onTap: () => {

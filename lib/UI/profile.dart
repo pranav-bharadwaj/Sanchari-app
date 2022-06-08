@@ -1,14 +1,15 @@
-import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:sanchari/Providers/darkTheme_provider.dart';
 import 'package:sanchari/constants.dart';
-import 'package:sanchari/contactUs.dart';
-import 'package:sanchari/editProfile.dart';
-import 'package:sanchari/feedback.dart';
-import 'package:sanchari/passwordReset.dart';
+import 'package:sanchari/UI/contactUs.dart';
+import 'package:sanchari/UI/editProfile.dart';
+import 'package:sanchari/UI/feedback.dart';
+import 'package:sanchari/UI/Auth/passwordReset.dart';
 
 import 'package:share/share.dart';
+import 'package:provider/provider.dart';
 
 class Profile extends StatelessWidget {
   @override
@@ -25,9 +26,9 @@ class Profile extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: kSpacingUnit.w * 5,
-                  backgroundImage: NetworkImage("https://drive.google.com/uc?id=1YkIrSlu7_sApI4lAqzai9LOozh5KThQO&export=download"),
+                  backgroundImage: NetworkImage(
+                      "https://drive.google.com/uc?id=1YkIrSlu7_sApI4lAqzai9LOozh5KThQO&export=download"),
                 ),
-              
               ],
             ),
           ),
@@ -39,7 +40,9 @@ class Profile extends StatelessWidget {
           SizedBox(height: kSpacingUnit.w * 0.5),
           Text(
             'monu2001@gmail.com',
-            style: TextStyle(fontSize: ScreenUtil().setSp(kSpacingUnit.w * 1.3), fontWeight: FontWeight.w300),
+            style: TextStyle(
+                fontSize: ScreenUtil().setSp(kSpacingUnit.w * 1.3),
+                fontWeight: FontWeight.w300),
           ),
         ],
       ),
@@ -64,11 +67,10 @@ class Profile extends StatelessWidget {
             ),
             profileInfo,
             GestureDetector(
-                onTap: () => {print("HI")},
-                child: ThemeSwitcher(
-                  builder: (context) => Icon(LineAwesomeIcons.sun,
-                      size: ScreenUtil().setSp(kSpacingUnit.w * 3)),
-                )),
+              onTap: () => {context.read<DarkTheme>().changeTheme()},
+              child: Icon(LineAwesomeIcons.sun,
+                  size: ScreenUtil().setSp(kSpacingUnit.w * 3)),
+            ),
             SizedBox(
               width: kSpacingUnit.w * 3,
             ),
