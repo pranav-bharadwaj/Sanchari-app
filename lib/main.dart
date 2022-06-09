@@ -1,3 +1,4 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:sanchari/Providers/darkTheme_provider.dart';
@@ -25,12 +26,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final bool isLightMode =
-        // Theme.of(context).brightness == Brightness.light ? true : false;
+    // Theme.of(context).brightness == Brightness.light ? true : false;
 
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Sanchari',
-        theme: context.watch<DarkTheme>().isLightMode ? kLightTheme : kDarkTheme,
+        theme:
+            context.watch<DarkTheme>().isLightMode ? kLightTheme : kDarkTheme,
         home: AnimatedSplashScreen(
             duration: 2000,
             splash: Column(
@@ -67,7 +69,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
-  static const List<Widget> _widgetOptions = <Widget>[
+  final navigationtionKey = GlobalKey<CurvedNavigationBarState>();
+
+  final screens = [
     Home(),
     Search(),
     Notifications(),
@@ -82,6 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       appBar: AppBar(
         title: Text(widget.title),
         backgroundColor: const Color(0xffE3002C),
@@ -97,9 +102,49 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: screens[_selectedIndex],
       ),
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: CurvedNavigationBar(
+        items: <Widget>[
+          Icon(
+            Icons.home,
+            color: context.watch<DarkTheme>().isLightMode && _selectedIndex != 0
+                ? kAccentColor
+                : Colors.white,
+          ),
+          Icon(
+            Icons.search,
+            color: context.watch<DarkTheme>().isLightMode && _selectedIndex != 1
+                ? kAccentColor
+                : Colors.white,
+          ),
+          Icon(
+            Icons.notifications,
+            color: context.watch<DarkTheme>().isLightMode && _selectedIndex != 2
+                ? kAccentColor
+                : Colors.white,
+          ),
+        ],
+        height: 60,
+        color: context.watch<DarkTheme>().isLightMode
+            ? kLightPrimaryColor
+            : kDarkPrimaryColor,
+        buttonBackgroundColor: kAccentColor,
+        backgroundColor: Colors.transparent,
+        animationDuration: Duration(milliseconds: 500),
+        index: _selectedIndex,
+        onTap: _onItemTapped,
+      ),
+    );
+  }
+}
+
+
+
+/*
+// Old Bottom app bar
+
+BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -109,6 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: Icon(Icons.search),
             label: 'Search',
           ),
+    
           BottomNavigationBarItem(
             icon: Icon(Icons.notifications),
             label: 'Notification',
@@ -118,6 +164,4 @@ class _MyHomePageState extends State<MyHomePage> {
         selectedItemColor: const Color(0xffE3002C),
         onTap: _onItemTapped,
       ),
-    );
-  }
-}
+*/ 

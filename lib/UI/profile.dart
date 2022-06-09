@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:sanchari/Providers/darkTheme_provider.dart';
+import 'package:sanchari/UI/busDetails.dart';
 import 'package:sanchari/constants.dart';
 import 'package:sanchari/UI/contactUs.dart';
 import 'package:sanchari/UI/editProfile.dart';
@@ -51,7 +52,7 @@ class Profile extends StatelessWidget {
         body: Column(
       children: [
         SizedBox(
-          height: kSpacingUnit.w * 5,
+          height: kSpacingUnit.w * 4,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -68,7 +69,10 @@ class Profile extends StatelessWidget {
             profileInfo,
             GestureDetector(
               onTap: () => {context.read<DarkTheme>().changeTheme()},
-              child: Icon(LineAwesomeIcons.sun,
+              child: Icon(
+                  context.watch<DarkTheme>().isLightMode
+                      ? LineAwesomeIcons.moon
+                      : LineAwesomeIcons.sun,
                   size: ScreenUtil().setSp(kSpacingUnit.w * 3)),
             ),
             SizedBox(
@@ -79,6 +83,21 @@ class Profile extends StatelessWidget {
         Expanded(
             child: ListView(
           children: [
+            Visibility(
+              visible: true,
+              child: GestureDetector(
+                onTap: () => {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const BusDetails()),
+                  )
+                },
+                child: ProfileListItem(
+                  icon: LineAwesomeIcons.sync_icon,
+                  text: 'Update Bus Details',
+                ),
+              ),
+            ),
             GestureDetector(
               onTap: () => {
                 Navigator.push(
