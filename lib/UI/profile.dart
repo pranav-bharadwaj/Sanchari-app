@@ -94,7 +94,7 @@ class Profile extends StatelessWidget {
                 },
                 child: ProfileListItem(
                   icon: LineAwesomeIcons.sync_icon,
-                  text: 'Update Bus Details',
+                  text: 'Update Bus Status',
                 ),
               ),
             ),
