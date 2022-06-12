@@ -2,8 +2,8 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:sanchari/Providers/darkTheme_provider.dart';
+import 'package:sanchari/UI/Auth/AuthMain.dart';
 import 'package:sanchari/constants.dart';
-import 'package:sanchari/UI/profile.dart';
 import 'package:sanchari/UI/search.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:sanchari/UI/home.dart';
@@ -95,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Profile()),
+                  MaterialPageRoute(builder: (context) => AuthMain()),
                 );
               },
               icon: const Icon(Icons.person)),

@@ -46,6 +46,7 @@ dependencies:
   flutter_screenutil: ^5.5.3+2
   provider: ^6.0.3
   curved_navigation_bar: ^1.0.3
+  google_fonts: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -86,17 +87,40 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: SFProText
-  #     fonts:
-  #       - asset: fonts/SF-Pro-Text-Thin.otf
-  #       weight:100
-  #       - asset: fonts/SF-Pro-Text-Regular.otf
-  #       weight:400
-  #       - asset: fonts/SF-Pro-Text-Medium.otf
-  #       weight:500
-  #       - asset: fonts/SF-Pro-Text-Bold.otf
-  #       weight:600
+  fonts:
+    - family: OpenSans
+      fonts:
+        - asset: fonts/OpenSans-Bold.ttf
+          weight: 700
+        - asset: fonts/OpenSans-BoldItalic.ttf 
+          style: italic
+          weight: 700
+        - asset: fonts/OpenSans-ExtraBold.ttf
+          weight: 800
+        - asset: fonts/OpenSans-ExtraBoldItalic.ttf
+          weight: 800
+          style: italic
+        - asset: fonts/OpenSans-Italic.ttf
+          weight: 500
+          style: italic
+        - asset: fonts/OpenSans-Light.ttf
+          weight: 300
+           
+        - asset: fonts/OpenSans-LightItalic.ttf
+          weight: 300
+          style: italic
+        - asset: fonts/OpenSans-Medium.ttf
+          weight: 500
+        - asset: fonts/OpenSans-MediumItalic.ttf
+          weight: 500
+          style: italic
+        - asset: fonts/OpenSans-Regular.ttf
+          weight: 400
+        - asset: fonts/OpenSans-SemiBoldItalic.ttf
+          weight: 600
+          style: italic
+        - asset: fonts/OpenSans-SemiBold.ttf
+          weight: 600
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
