@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:touch_ripple_effect/touch_ripple_effect.dart';
 
 class AuthMain extends StatelessWidget {
   const AuthMain({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class AuthMain extends StatelessWidget {
               Container(
                 child: Container(
                   width: double.infinity,
-                  height: 290.0,
+                  height: 300.0,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage("assets/auth/bus-track1.png"),
@@ -140,7 +141,8 @@ class AuthMain extends StatelessWidget {
                             decoration: InputDecoration(
                               isDense: true,
                               prefixIcon: Padding(
-                                  padding: EdgeInsets.only(left: 10, right: 3),
+                                  padding: EdgeInsets.only(
+                                      left: 10, right: 3, bottom: 3),
                                   child: Text(
                                     '+91',
                                     style: TextStyle(
@@ -194,6 +196,63 @@ class AuthMain extends StatelessWidget {
                         ),
                       ),
                     ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                            child: Divider(
+                          thickness: 1,
+                        )),
+                        Container(
+                            margin: EdgeInsets.only(left: 10, right: 10),
+                            child: Text(
+                              "or",
+                              style: TextStyle(
+                                  color: Colors.black54,
+                                  fontFamily: "OpenSans",
+                                  fontWeight: FontWeight.bold),
+                            )),
+                        Expanded(
+                            child: Divider(
+                          thickness: 1,
+                        ))
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          "assets/auth/google.jgp-removebg-preview.png",
+                          width: 80,
+                          height: 60,
+                        ),
+                        Container(
+                          height: 40,
+                          width: 40,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
+                              border:
+                                  Border.all(width: 1, color: Colors.black26)),
+                          child: TouchRippleEffect(
+                            borderRadius: BorderRadius.circular(50),
+                            child: IconButton(
+                              iconSize: 20,
+                              icon: Icon(
+                                Icons.more_horiz,
+                              ),
+                              onPressed: () {},
+                              splashColor: Colors.black12,
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),
