@@ -13,42 +13,81 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      children: [
-        SizedBox(
-          height: 30,
-        ),
-        Card(
-          child: TextField(
-            autofocus: false,
-            style: TextStyle(fontSize: 18),
-            decoration: InputDecoration(
-                hintText: "Bus Number",
-                hintStyle:
-                    const TextStyle(fontWeight: FontWeight.w400, fontSize: 18),
-                filled: true,
-                fillColor: Theme.of(context).brightness == Brightness.light
-                    ? kLightPrimaryColor
-                    : kDarkSecondaryColor,
-                border: InputBorder.none),
-          ),
-          elevation: 5,
-        ),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-              primary: Colors.blue, // background
-              onPrimary: kLightPrimaryColor,
-              elevation: 5 // foreground
+        backgroundColor: Theme.of(context).brightness == Brightness.light
+            ? kLightSecondaryColor
+            : kDarkPrimaryColor,
+        body: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 10,
               ),
-          onPressed: () => {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const LocationSearch())),
-          },
-          child: Text('Search Destination'),
-        ),
-      ],
-    ));
+              Container(
+                height: 60,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LocationSearch()));
+                  },
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(60),
+                    ),
+                    child: TextField(
+                      enabled: false,
+                      autofocus: false,
+                      style: TextStyle(fontSize: 20),
+                      decoration: InputDecoration(
+                        hintText: "Search bus by destination",
+                        hintStyle: const TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 20,
+                        ),
+                        contentPadding: EdgeInsets.fromLTRB(20, 30, 10, 0),
+                        filled: true,
+                        fillColor:
+                            Theme.of(context).brightness == Brightness.light
+                                ? kLightPrimaryColor
+                                : kDarkSecondaryColor,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(60),
+                          borderSide: BorderSide(
+                            width: 0,
+                            style: BorderStyle.none,
+                          ),
+                        ),
+                        suffixIcon: IconButton(
+                            onPressed: () {}, icon: Icon(Icons.search)),
+                      ),
+                    ),
+                    color: Colors.white,
+                    // shadowColor: Colors.red,
+                    elevation: 5,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    primary: Colors.blue, // background
+                    onPrimary: kLightPrimaryColor,
+                    elevation: 5 // foreground
+                    ),
+                onPressed: () => {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LocationSearch())),
+                },
+                child: Text('Search Destination'),
+              ),
+            ],
+          ),
+        ));
   }
 }
