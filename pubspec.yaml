@@ -49,6 +49,8 @@ dependencies:
   touch_ripple_effect: ^2.2.3
   google_sign_in: ^4.4.4
   
+  maps_launcher: ^2.0.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
