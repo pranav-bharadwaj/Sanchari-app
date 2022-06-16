@@ -66,7 +66,7 @@ class _HomeState extends State<Home> {
                   Container(
                     margin: EdgeInsets.only(top: screenSize.height * 0.12),
                     child: Padding(
-                      padding: const EdgeInsets.all(15.0),
+                      padding: const EdgeInsets.all(18.0),
                       child: Container(
                         height: 60,
                         child: InkWell(
@@ -89,7 +89,7 @@ class _HomeState extends State<Home> {
                                 hintText: "Search bus by destination",
                                 hintStyle: const TextStyle(
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 20,
+                                  fontSize: 18,
                                 ),
                                 contentPadding:
                                     EdgeInsets.fromLTRB(20, 30, 10, 0),
