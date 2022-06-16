@@ -2,12 +2,13 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:sanchari/Providers/darkTheme_provider.dart';
+import 'package:sanchari/UI/Home/bookMark.dart';
 import 'package:sanchari/constants.dart';
 import 'package:sanchari/UI/profile.dart';
-import 'package:sanchari/UI/search.dart';
+import 'package:sanchari/UI/Home/search.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:sanchari/UI/home.dart';
-import 'package:sanchari/UI/notifications.dart';
+import 'package:sanchari/UI/Home/home.dart';
+import 'package:sanchari/UI/Home/notifications.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -72,8 +73,10 @@ class _MyHomePageState extends State<MyHomePage> {
   final navigationtionKey = GlobalKey<CurvedNavigationBarState>();
 
   final screens = [
+    // GoogleMapScreen(),
     Home(),
     Search(),
+    Bookmark(),
     Notifications(),
   ];
 
@@ -86,10 +89,10 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBody: true,
+      // extendBody: true,
       appBar: AppBar(
         title: Text(widget.title),
-        backgroundColor: const Color(0xffE3002C),
+        backgroundColor: kAccentColor,
         actions: [
           IconButton(
               onPressed: () {
@@ -119,8 +122,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 : Colors.white,
           ),
           Icon(
-            Icons.notifications,
+            Icons.bookmark,
             color: context.watch<DarkTheme>().isLightMode && _selectedIndex != 2
+                ? kAccentColor
+                : Colors.white,
+          ),
+          Icon(
+            Icons.notifications,
+            color: context.watch<DarkTheme>().isLightMode && _selectedIndex != 3
                 ? kAccentColor
                 : Colors.white,
           ),
@@ -130,7 +139,9 @@ class _MyHomePageState extends State<MyHomePage> {
             ? kLightPrimaryColor
             : kDarkPrimaryColor,
         buttonBackgroundColor: kAccentColor,
-        backgroundColor: Colors.transparent,
+        backgroundColor: context.watch<DarkTheme>().isLightMode
+            ? kLightSecondaryColor
+            : kDarkSecondaryColor,
         animationDuration: Duration(milliseconds: 500),
         index: _selectedIndex,
         onTap: _onItemTapped,

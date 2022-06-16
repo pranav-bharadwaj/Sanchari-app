@@ -93,9 +93,8 @@ class Profile extends StatelessWidget {
                   )
                 },
                 child: ProfileListItem(
-                  icon: LineAwesomeIcons.sync_icon,
-                  text: 'Update Bus Status',
-                ),
+                    icon: LineAwesomeIcons.sync_icon,
+                    text: 'Update Bus Status'),
               ),
             ),
             GestureDetector(

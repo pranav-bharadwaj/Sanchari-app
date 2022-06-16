@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sanchari/constants.dart';
 
 class FeedBack extends StatefulWidget {
-  const FeedBack({Key? key}) : super(key: key);
+  const FeedBack({Key? key}) : super(key: key);                                                                                                                                                                           
 
   @override
   State<FeedBack> createState() => _FeedBackState();
