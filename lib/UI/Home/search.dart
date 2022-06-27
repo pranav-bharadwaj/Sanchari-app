@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sanchari/UI/googleMapScreen.dart';
 import 'package:sanchari/constants.dart';
 
 class Search extends StatelessWidget {
@@ -86,8 +87,11 @@ class Search extends StatelessWidget {
                                   height: double.infinity,
                                   child: IconButton(
                                     onPressed: () {
-                                      print(Theme.of(context).brightness ==
-                                          Brightness.light);
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const GoogleMapScreen()));
                                     },
                                     icon: Icon(Icons.directions),
                                     color: Colors.blue,
