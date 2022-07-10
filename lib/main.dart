@@ -73,7 +73,6 @@ class _MyHomePageState extends State<MyHomePage> {
   final navigationtionKey = GlobalKey<CurvedNavigationBarState>();
 
   final screens = [
-    // GoogleMapScreen(),
     Home(),
     Search(),
     Bookmark(),
@@ -93,6 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
         backgroundColor: kAccentColor,
+        elevation: _selectedIndex == 0 ? 0 : 6,
         actions: [
           IconButton(
               onPressed: () {
