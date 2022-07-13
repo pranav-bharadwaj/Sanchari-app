@@ -2,14 +2,19 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:sanchari/Providers/darkTheme_provider.dart';
-import 'package:sanchari/UI/Auth/AuthMain.dart';
+import 'package:sanchari/UI/Auth/Login.dart';
 import 'package:sanchari/UI/Home/bookMark.dart';
+import 'package:sanchari/UI/profile.dart';
 import 'package:sanchari/constants.dart';
 import 'package:sanchari/UI/Home/search.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:sanchari/UI/Home/home.dart';
 import 'package:sanchari/UI/Home/notifications.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sanchari/Models/user_model.dart';
+import 'package:sanchari/Providers/AuthProvider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +31,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // final bool isLightMode =
+    // final bool isLightMode
     // Theme.of(context).brightness == Brightness.light ? true : false;
 
     return MaterialApp(
@@ -85,6 +90,21 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  User? user = FirebaseAuth.instance.currentUser;
+  UserModel loggedInUser = UserModel();
+  @override
+  void initState() {
+    super.initState();
+    FirebaseFirestore.instance
+        .collection("Users")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      this.loggedInUser = UserModel.fromMap(value.data());
+      context.read<AuthState>().changeTheme();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,7 +118,11 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => AuthMain()),
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          context.watch<AuthState>().isLoggedIn
+                              ? Profile()
+                              : Login()),
                 );
               },
               icon: const Icon(Icons.person)),
@@ -150,8 +174,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-
-
 /*
 // Old Bottom app bar
 
@@ -175,4 +197,4 @@ BottomNavigationBar(
         selectedItemColor: const Color(0xffE3002C),
         onTap: _onItemTapped,
       ),
-*/ 
+*/

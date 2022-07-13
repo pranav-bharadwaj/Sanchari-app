@@ -1,22 +1,24 @@
 import "package:flutter/material.dart";
-import 'package:sanchari/UI/Auth/SignUp.dart';
+import 'package:sanchari/Models/user_model.dart';
+import 'package:sanchari/UI/Auth/Login.dart';
 import 'package:sanchari/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sanchari/main.dart';
 
-class Login extends StatefulWidget {
-  Login({Key? key}) : super(key: key);
+class SignUp extends StatefulWidget {
+  SignUp({Key? key}) : super(key: key);
 
   @override
-  State<Login> createState() => _LoginState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _LoginState extends State<Login> {
+class _SignUpState extends State<SignUp> {
+  bool value = false;
   final _auth = FirebaseAuth.instance;
   String? errorMessage;
   final _formKey = GlobalKey<FormState>();
-  bool value = false;
 
   final nameEditingController = new TextEditingController();
   final emailEditingController = new TextEditingController();
@@ -58,7 +60,7 @@ class _LoginState extends State<Login> {
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 children: [
                   TextSpan(
-                      text: "Login with ",
+                      text: "Create An ",
                       style: TextStyle(
                         color: Theme.of(context).brightness == Brightness.light
                             ? Colors.black87
@@ -77,7 +79,7 @@ class _LoginState extends State<Login> {
                 height: 10,
               ),
               Text(
-                "And Feel free to search seamlessly",
+                "And Find Your Bus Realtime location",
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).brightness == Brightness.light
@@ -93,6 +95,62 @@ class _LoginState extends State<Login> {
                 child: Container(
                   child: Column(
                     children: [
+                      TextFormField(
+                        controller: nameEditingController,
+                        validator: (value) {
+                          RegExp regex = new RegExp(r'^.{3,}$');
+                          if (value!.isEmpty) {
+                            return ("Name cannot be Empty");
+                          }
+                          if (!regex.hasMatch(value)) {
+                            return ("Enter Valid name(Min. 3 Character)");
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          nameEditingController.text = value!;
+                        },
+                        cursorColor: Colors.red,
+                        keyboardType: TextInputType.text,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 16),
+                        decoration: InputDecoration(
+                          labelText: "Full Name",
+                          labelStyle: TextStyle(
+                              color: kAccentColor,
+                              fontWeight: FontWeight.normal),
+                          isDense: true,
+                          prefixIcon: Padding(
+                            padding:
+                                EdgeInsets.only(left: 10, right: 3, bottom: 3),
+                            child: Icon(
+                              Icons.account_circle_sharp,
+                              size: 25,
+                              color: Theme.of(context).brightness ==
+                                      Brightness.light
+                                  ? Colors.black26
+                                  : Colors.white24,
+                            ),
+                          ),
+                          hintText: "Enter your full name",
+                          hintStyle: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontFamily: "OpenSans",
+                            color:
+                                Theme.of(context).brightness == Brightness.light
+                                    ? Colors.black26
+                                    : Colors.white24,
+                          ),
+                          border: OutlineInputBorder(),
+                          prefixIconConstraints:
+                              BoxConstraints(minWidth: 0, minHeight: 0),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                            borderSide:
+                                BorderSide(color: Colors.red, width: 2.0),
+                          ),
+                        ),
+                      ),
                       SizedBox(
                         height: 30,
                       ),
@@ -228,7 +286,7 @@ class _LoginState extends State<Login> {
                             },
                           ),
                           Text(
-                            "Keep me signed In",
+                            "Create Account as Department Employee",
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 color: Colors.black45),
@@ -238,18 +296,85 @@ class _LoginState extends State<Login> {
                       SizedBox(
                         height: 10,
                       ),
+                      Visibility(
+                        visible: this.value,
+                        child: TextFormField(
+                          controller: employeeEditingController,
+                          validator: (value) {
+                            if (this.value) {
+                              if (employeeEditingController.text.isEmpty) {
+                                return "Employee ID must be valid digits";
+                              } else {
+                                return null;
+                              }
+                            }
 
+                            return null;
+                          },
+                          onSaved: (value) {
+                            employeeEditingController.text = value!;
+                          },
+                          cursorColor: Colors.red,
+                          keyboardType: TextInputType.text,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500, fontSize: 16),
+                          decoration: InputDecoration(
+                            labelText: "Employee ID",
+                            labelStyle: TextStyle(
+                                color: kAccentColor,
+                                fontWeight: FontWeight.normal),
+                            isDense: true,
+                            prefixIcon: Padding(
+                              padding: EdgeInsets.only(
+                                  left: 10, right: 3, bottom: 3),
+                              child: Icon(
+                                Icons.admin_panel_settings,
+                                size: 25,
+                                color: Theme.of(context).brightness ==
+                                        Brightness.light
+                                    ? Colors.black26
+                                    : Colors.white24,
+                              ),
+                            ),
+                            hintText: "Enter Your Dept Empolyee ID",
+                            hintStyle: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontFamily: "OpenSans",
+                              color: Theme.of(context).brightness ==
+                                      Brightness.light
+                                  ? Colors.black26
+                                  : Colors.white24,
+                            ),
+                            border: OutlineInputBorder(),
+                            prefixIconConstraints:
+                                BoxConstraints(minWidth: 0, minHeight: 0),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                              borderSide:
+                                  BorderSide(color: Colors.red, width: 2.0),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
                       Container(
                         width: screenWidth,
                         height: 45,
                         child: ElevatedButton(
                           onPressed: () {
-                            signIn(emailEditingController.text,
-                                passwordEditingController.text);
+                            // Respond to button press
+                            signupVerify(
+                                emailEditingController.text,
+                                passwordEditingController.text,
+                                employeeEditingController.text,
+                                this.value);
+                            print(this.value);
                           },
                           style: ElevatedButton.styleFrom(primary: Colors.red),
                           child: Text(
-                            "Get My Account",
+                            "Create My Account",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: "Open Sans",
@@ -266,7 +391,7 @@ class _LoginState extends State<Login> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "Don't have an account? ",
+                            "Already have an account ",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -277,9 +402,9 @@ class _LoginState extends State<Login> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => SignUp()));
+                                      builder: (context) => Login()));
                             }),
-                            child: Text("Create new one",
+                            child: Text("Login",
                                 style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
@@ -301,21 +426,47 @@ class _LoginState extends State<Login> {
     );
   }
 
-  void signIn(String email, String password) async {
+  void signupVerify(
+      String email, String password, String employeeId, bool isEmpolyee) async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     if (_formKey.currentState!.validate()) {
       try {
-        await _auth
-            .signInWithEmailAndPassword(email: email, password: password)
-            .then((uid) => {
-                  Fluttertoast.showToast(msg: "Login Successful"),
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => MyHomePage())),
-                });
+        if (isEmpolyee) {
+          firebaseFirestore
+              .collection("EmployeeId")
+              .where("EmployeeId", isEqualTo: employeeId)
+              .get()
+              .then((value) async => {
+                    if (value.size >= 1)
+                      {
+                        await _auth
+                            .createUserWithEmailAndPassword(
+                                email: email, password: password)
+                            .then((value) =>
+                                {postDetailsToFirestore(true, employeeId)})
+                            .catchError((e) {
+                          Fluttertoast.showToast(msg: e!.message);
+                        })
+                      }
+                    else
+                      {
+                        Fluttertoast.showToast(
+                            msg: "Employee is not registered..!")
+                      }
+                  });
+        } else {
+          await _auth
+              .createUserWithEmailAndPassword(email: email, password: password)
+              .then((value) {
+            postDetailsToFirestore(false, "");
+          }).catchError((e) {
+            Fluttertoast.showToast(msg: e!.message);
+          });
+        }
       } on FirebaseAuthException catch (error) {
         switch (error.code) {
           case "invalid-email":
             errorMessage = "Your email address appears to be malformed.";
-
             break;
           case "wrong-password":
             errorMessage = "Your password is wrong.";
@@ -339,5 +490,35 @@ class _LoginState extends State<Login> {
         print(error.code);
       }
     }
+  }
+
+  postDetailsToFirestore(bool isEmployee, String employeeId) async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+    User? user = _auth.currentUser;
+
+    UserModel userModel = UserModel();
+    userModel.uid = user!.uid;
+    userModel.email = user.email;
+    userModel.fullname = nameEditingController.text;
+    userModel.dateofbirth = "";
+    userModel.isEmployee = isEmployee;
+    userModel.employeeId = employeeId;
+    userModel.isAdmin = false;
+    print(Timestamp.now().toString());
+    userModel.registeredOn = DateTime.now().toUtc().toString();
+    print("got it");
+    await firebaseFirestore
+        .collection("User")
+        .doc(user.uid)
+        .set(userModel.toMap())
+        .then((value) => {
+              Fluttertoast.showToast(msg: "Account created successfully :) "),
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => MyHomePage())),
+            })
+        .catchError((e) {
+      Fluttertoast.showToast(msg: e!.message);
+    });
   }
 }
