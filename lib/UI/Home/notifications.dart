@@ -1,8 +1,8 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:sanchari/UI/Admin/adminDashboard.dart';
 import 'package:sanchari/constants.dart';
-import 'package:sanchari/UI/locationSearch.dart';
 
 class Notifications extends StatelessWidget {
   const Notifications({Key? key}) : super(key: key);
@@ -59,7 +59,7 @@ class Notifications extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const LocationSearch()),
+                                builder: (context) => const AdminDashboard()),
                           )
                         },
                       ),
