@@ -30,16 +30,21 @@ class _AdminDashboardState extends State<AdminDashboard> {
             padding: EdgeInsets.fromLTRB(15, 5, 15, 5),
             child: Column(
               children: [
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: 52,
-                    width: 52,
-                    decoration: BoxDecoration(
-                        color: Color.fromRGBO(255, 255, 255, 0.5),
-                        shape: BoxShape.circle),
-                    child: Icon(Icons.exit_to_app),
+                GestureDetector(
+                  onTap: () => {
+                    Navigator.pop(context),
+                  },
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 52,
+                      width: 52,
+                      decoration: BoxDecoration(
+                          color: Color.fromRGBO(255, 255, 255, 0.5),
+                          shape: BoxShape.circle),
+                      child: Icon(Icons.exit_to_app),
+                    ),
                   ),
                 ),
                 Align(
@@ -52,7 +57,14 @@ class _AdminDashboardState extends State<AdminDashboard> {
                           fontWeight: FontWeight.w700),
                     )),
                 SizedBox(
-                  height: 200,
+                  height: 20,
+                ),
+                CircleAvatar(
+                  backgroundImage: AssetImage('assets/sanchari.jpeg'),
+                  radius: 60,
+                ),
+                SizedBox(
+                  height: 40,
                 ),
                 Expanded(
                     child: GridView.count(
@@ -64,13 +76,14 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     AdminCategoryCard(
                         iconSrc: "assets/admin/bus.jpg", title: "Add Bus"),
                     AdminCategoryCard(
-                        iconSrc: "assets/admin/teamwork.png",
+                        iconSrc: "assets/admin/worker.png",
                         title: "Add Employee"),
                     AdminCategoryCard(
                         iconSrc: "assets/admin/bell.jpg",
                         title: "Notifications"),
                     AdminCategoryCard(
-                        iconSrc: "assets/admin/bus.jpg", title: "Add User"),
+                        iconSrc: "assets/admin/teamwork.png",
+                        title: "View Employees"),
                   ],
                 ))
               ],

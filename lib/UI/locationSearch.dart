@@ -24,6 +24,8 @@ class _LocationSearchState extends State<LocationSearch> {
   late GooglePlace googlePlace;
   List<AutocompletePrediction> predictions = [];
 
+  bool _searched = true;
+
   Timer? _debounce;
 
   @override
@@ -54,6 +56,12 @@ class _LocationSearchState extends State<LocationSearch> {
     } else {
       print("cool");
     }
+  }
+
+  void searchFunc() {
+    setState(() {
+      _searched = !_searched;
+    });
   }
 
   @override
@@ -113,8 +121,11 @@ class _LocationSearchState extends State<LocationSearch> {
                                 ))
                             : null),
                     onChanged: (value) {
+                      setState(() {
+                        _searched = true;
+                      });
                       if (_debounce?.isActive ?? false) _debounce!.cancel();
-                      _debounce = Timer(Duration(milliseconds: 1000), () {
+                      _debounce = Timer(Duration(milliseconds: 2000), () {
                         if (value.isNotEmpty) {
                           autoCompleteSearch(value);
                         } else {
@@ -177,6 +188,9 @@ class _LocationSearchState extends State<LocationSearch> {
                                 icon: Icon(Icons.clear_outlined))
                             : null),
                     onChanged: (value) {
+                      setState(() {
+                        _searched = true;
+                      });
                       if (_debounce?.isActive ?? false) _debounce!.cancel();
                       _debounce = Timer(Duration(milliseconds: 2000), () {
                         if (value.isNotEmpty) {
@@ -200,131 +214,142 @@ class _LocationSearchState extends State<LocationSearch> {
                 onPressed: () {
                   if (startPosition != null && endPosition != null) {
                     print("navigation");
+                    searchFunc();
                     // code to search bus based on start and end location
                   }
                 },
                 child: Text("Search Bus")),
-            // Expanded(
-            //   child: ListView.builder(
-            //       shrinkWrap: true,
-            //       itemCount: predictions.length,
-            //       itemBuilder: (context, index) {
-            //         return ListTile(
-            //           leading: CircleAvatar(
-            //               child: Icon(
-            //             Icons.pin_drop,
-            //             color: Colors.white,
-            //           )),
-            //           title: Text(
-            //             predictions[index].description.toString(),
-            //           ),
-            //           onTap: () async {
-            //             final placeId = predictions[index].placeId!;
-            //             final details = await googlePlace.details.get(placeId);
+            Visibility(
+              visible: _searched,
+              child: Expanded(
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: predictions.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        leading: CircleAvatar(
+                            child: Icon(
+                          Icons.pin_drop,
+                          color: Colors.white,
+                        )),
+                        title: Text(
+                          predictions[index].description.toString(),
+                        ),
+                        onTap: () async {
+                          final placeId = predictions[index].placeId!;
+                          final details =
+                              await googlePlace.details.get(placeId);
 
-            //             if (details != null &&
-            //                 details.result != null &&
-            //                 mounted) {
-            //               if (startFocusNode.hasFocus) {
-            //                 setState(() {
-            //                   startPosition = details.result;
-            //                   _startSearchFieldController.text =
-            //                       details.result!.name!;
-            //                   predictions = [];
-            //                 });
-            //               } else {
-            //                 setState(() {
-            //                   endPosition = details.result;
-            //                   _endSearchFeildController.text =
-            //                       details.result!.name!;
-            //                   predictions = [];
-            //                 });
-            //               }
+                          if (details != null &&
+                              details.result != null &&
+                              mounted) {
+                            if (startFocusNode.hasFocus) {
+                              setState(() {
+                                startPosition = details.result;
+                                _startSearchFieldController.text =
+                                    details.result!.name!;
+                                predictions = [];
+                              });
+                            } else {
+                              setState(() {
+                                endPosition = details.result;
+                                _endSearchFeildController.text =
+                                    details.result!.name!;
+                                predictions = [];
+                              });
+                            }
 
-            //               if (startPosition != null && endPosition != null) {
-            //                 print("navigation");
-            //                 // code to search bus based on start and end location
-            //               }
-            //             }
-            //           },
-            //         );
-            //       }),
-            // ),
-            Expanded(
-              child: Card(
-                  elevation: 10,
-                  margin: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(35),
-                          topRight: Radius.circular(35))),
-                  child: Column(
-                    children: [
-                      SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                            if (startPosition != null && endPosition != null) {
+                              print("navigation");
+                              // code to search bus based on start and end location
+                            }
+                          }
+                        },
+                      );
+                    }),
+              ),
+            ),
+            Visibility(
+                visible: !_searched,
+                child: Expanded(
+                  child: Card(
+                      elevation: 10,
+                      margin: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(35),
+                              topRight: Radius.circular(35))),
+                      child: Column(
                         children: [
-                          SizedBox(width: 20),
-                          Icon(
-                            Icons.search,
-                            size: 25.0,
+                          SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizedBox(width: 20),
+                              Icon(
+                                Icons.search,
+                                size: 25.0,
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                "Results",
+                                style: TextStyle(fontSize: 20),
+                              )
+                            ],
                           ),
-                          SizedBox(width: 8),
-                          Text(
-                            "Results",
-                            style: TextStyle(fontSize: 20),
+                          Container(
+                              margin: const EdgeInsets.only(
+                                  left: 15.0, right: 15.0),
+                              child: Divider(
+                                color: Colors.black,
+                                height: 20,
+                              )),
+                          Expanded(
+                            child: ListView.builder(
+                                itemCount: 30,
+                                itemBuilder: (context, index) {
+                                  return Card(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(7))),
+                                    child: ListTile(
+                                      leading: Container(
+                                        height: double.infinity,
+                                        child: Icon(
+                                          Icons.directions_bus_rounded,
+                                          size: 40.0,
+                                        ),
+                                      ),
+                                      title: Text("KA - 13 F-3456"),
+                                      subtitle: Text("Hassan - Sakleshpur"),
+                                      trailing: Container(
+                                        height: double.infinity,
+                                        child: IconButton(
+                                          onPressed: () {
+                                            print(
+                                                Theme.of(context).brightness ==
+                                                    Brightness.light);
+                                          },
+                                          icon: Icon(Icons.directions),
+                                          color: Colors.blue,
+                                          iconSize: 40.0,
+                                        ),
+                                      ),
+                                    ),
+                                    elevation: 10,
+                                    margin: EdgeInsets.fromLTRB(20, 8, 20, 8),
+                                  );
+                                }),
                           )
                         ],
-                      ),
-                      Container(
-                          margin:
-                              const EdgeInsets.only(left: 15.0, right: 15.0),
-                          child: Divider(
-                            color: Colors.black,
-                            height: 20,
-                          )),
-                      Expanded(
-                        child: ListView.builder(
-                            itemCount: 30,
-                            itemBuilder: (context, index) {
-                              return Card(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(7))),
-                                child: ListTile(
-                                  leading: Container(
-                                    height: double.infinity,
-                                    child: Icon(
-                                      Icons.directions_bus_rounded,
-                                      size: 40.0,
-                                    ),
-                                  ),
-                                  title: Text("KA - 13 F-3456"),
-                                  subtitle: Text("Hassan - Sakleshpur"),
-                                  trailing: Container(
-                                    height: double.infinity,
-                                    child: IconButton(
-                                      onPressed: () {
-                                        print(Theme.of(context).brightness ==
-                                            Brightness.light);
-                                      },
-                                      icon: Icon(Icons.directions),
-                                      color: Colors.blue,
-                                      iconSize: 40.0,
-                                    ),
-                                  ),
-                                ),
-                                elevation: 10,
-                                margin: EdgeInsets.fromLTRB(20, 8, 20, 8),
-                              );
-                            }),
-                      )
-                    ],
-                  )),
-            )
+                      )),
+                ))
           ],
         ),
       ),
     );
   }
 }
+/*
+
+ */
