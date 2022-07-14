@@ -33,6 +33,11 @@ class Search extends StatelessWidget {
                 ),
                 elevation: 5,
               )),
+          ElevatedButton(
+              onPressed: () {
+                print("hi");
+              },
+              child: Text("Search Bus")),
           Expanded(
             child: Card(
                 elevation: 8,

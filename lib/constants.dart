@@ -5,6 +5,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 const kSpacingUnit = 10;
 
+const String googleApiKey = "AIzaSyCslHZgsw_rDgdBsRSz2JSqHkMldK0p9Ig";
+
+
 const kDarkPrimaryColor = Color(0xFF212121);
 const kDarkSecondaryColor = Color(0xFF373737);
 const kLightPrimaryColor = Color(0xFFFFFFFF);
