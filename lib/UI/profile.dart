@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    
     ScreenUtil.init(context);
     var profileInfo = Expanded(
       child: Column(
