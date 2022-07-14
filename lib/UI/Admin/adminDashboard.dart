@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sanchari/UI/Admin/addEmployee.dart';
+import 'package:sanchari/UI/Admin/addNotifications.dart';
 import 'package:sanchari/constants.dart';
 
 class AdminDashboard extends StatefulWidget {
@@ -75,12 +77,30 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   children: [
                     AdminCategoryCard(
                         iconSrc: "assets/admin/bus.jpg", title: "Add Bus"),
-                    AdminCategoryCard(
-                        iconSrc: "assets/admin/worker.png",
-                        title: "Add Employee"),
-                    AdminCategoryCard(
-                        iconSrc: "assets/admin/bell.jpg",
-                        title: "Notifications"),
+                    GestureDetector(
+                      onTap: () => {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AddEmployee()),
+                        )
+                      },
+                      child: AdminCategoryCard(
+                          iconSrc: "assets/admin/worker.png",
+                          title: "Add Employee"),
+                    ),
+                    GestureDetector(
+                      onTap: () => {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AddNotifications()),
+                        )
+                      },
+                      child: AdminCategoryCard(
+                          iconSrc: "assets/admin/bell.jpg",
+                          title: "Notifications"),
+                    ),
                     AdminCategoryCard(
                         iconSrc: "assets/admin/teamwork.png",
                         title: "View Employees"),
@@ -110,7 +130,9 @@ class AdminCategoryCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(25),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).brightness == Brightness.light
+            ? kLightSecondaryColor
+            : kDarkPrimaryColor,
         borderRadius: BorderRadius.circular(13),
         boxShadow: [
           BoxShadow(
