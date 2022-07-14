@@ -2,7 +2,6 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:sanchari/Providers/darkTheme_provider.dart';
-import 'package:sanchari/UI/Auth/Login.dart';
 import 'package:sanchari/UI/Home/bookMark.dart';
 import 'package:sanchari/UI/profile.dart';
 import 'package:sanchari/constants.dart';
