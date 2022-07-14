@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sanchari/main.dart';
 
+
 class Login extends StatefulWidget {
   Login({Key? key}) : super(key: key);
 
@@ -22,8 +23,10 @@ class _LoginState extends State<Login> {
   final emailEditingController = new TextEditingController();
   final passwordEditingController = new TextEditingController();
   final employeeEditingController = new TextEditingController();
+  
   @override
   Widget build(BuildContext context) {
+    
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -47,6 +50,7 @@ class _LoginState extends State<Login> {
       ),
       body: SingleChildScrollView(
         child: Container(
+          
             child: Container(
           margin: EdgeInsets.only(top: 20, left: 28, right: 20),
           child: Column(

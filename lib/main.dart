@@ -11,10 +11,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:sanchari/UI/Home/home.dart';
 import 'package:sanchari/UI/Home/notifications.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:sanchari/Models/user_model.dart';
-import 'package:sanchari/Providers/AuthProvider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -58,7 +54,7 @@ class MyApp extends StatelessWidget {
               ],
             ),
             splashIconSize: 140,
-            nextScreen: const MyHomePage(),
+            nextScreen: Profile(),
             splashTransition: SplashTransition.fadeTransition,
             backgroundColor: const Color(0xffE3002C)));
   }
@@ -90,20 +86,20 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  User? user = FirebaseAuth.instance.currentUser;
-  UserModel loggedInUser = UserModel();
-  @override
-  void initState() {
-    super.initState();
-    FirebaseFirestore.instance
-        .collection("Users")
-        .doc(user!.uid)
-        .get()
-        .then((value) {
-      this.loggedInUser = UserModel.fromMap(value.data());
-      context.read<AuthState>().changeTheme();
-    });
-  }
+  // User? user = FirebaseAuth.instance.currentUser;
+  // UserModel loggedInUser = UserModel();
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   FirebaseFirestore.instance
+  //       .collection("Users")
+  //       .doc(user!.uid)
+  //       .get()
+  //       .then((value) {
+  //     this.loggedInUser = UserModel.fromMap(value.data());
+  //     setState(() {});
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -118,11 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          context.watch<AuthState>().isLoggedIn
-                              ? Profile()
-                              : Login()),
+                  MaterialPageRoute(builder: (context) => Login()),
                 );
               },
               icon: const Icon(Icons.person)),
