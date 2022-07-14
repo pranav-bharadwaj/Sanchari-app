@@ -2,9 +2,9 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:sanchari/Providers/darkTheme_provider.dart';
+import 'package:sanchari/UI/Auth/Login.dart';
 import 'package:sanchari/UI/Home/bookMark.dart';
 import 'package:sanchari/constants.dart';
-import 'package:sanchari/UI/profile.dart';
 import 'package:sanchari/UI/Home/search.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:sanchari/UI/Home/home.dart';
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // final bool isLightMode =
+    // final bool isLightMode
     // Theme.of(context).brightness == Brightness.light ? true : false;
 
     return MaterialApp(
@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
               ],
             ),
             splashIconSize: 140,
-            nextScreen: const MyHomePage(),
+            nextScreen: MyHomePage(),
             splashTransition: SplashTransition.fadeTransition,
             backgroundColor: const Color(0xffE3002C)));
   }
@@ -85,6 +85,21 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  // User? user = FirebaseAuth.instance.currentUser;
+  // UserModel loggedInUser = UserModel();
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   FirebaseFirestore.instance
+  //       .collection("Users")
+  //       .doc(user!.uid)
+  //       .get()
+  //       .then((value) {
+  //     this.loggedInUser = UserModel.fromMap(value.data());
+  //     setState(() {});
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,7 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Profile()),
+                  MaterialPageRoute(builder: (context) => Login()),
                 );
               },
               icon: const Icon(Icons.person)),
@@ -150,8 +165,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-
-
 /*
 // Old Bottom app bar
 
@@ -175,4 +188,4 @@ BottomNavigationBar(
         selectedItemColor: const Color(0xffE3002C),
         onTap: _onItemTapped,
       ),
-*/ 
+*/
