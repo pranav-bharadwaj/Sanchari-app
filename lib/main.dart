@@ -4,6 +4,7 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:sanchari/Providers/darkTheme_provider.dart';
 import 'package:sanchari/UI/Auth/Login.dart';
 import 'package:sanchari/UI/Home/bookMark.dart';
+import 'package:sanchari/UI/profile.dart';
 import 'package:sanchari/constants.dart';
 import 'package:sanchari/UI/Home/search.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -113,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Login()),
+                  MaterialPageRoute(builder: (context) => Profile()),
                 );
               },
               icon: const Icon(Icons.person)),

@@ -2,92 +2,60 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sanchari/constants.dart';
 
-class PasswordReset extends StatefulWidget {
-  const PasswordReset({Key? key}) : super(key: key);
+class AddNotifications extends StatefulWidget {
+  const AddNotifications({Key? key}) : super(key: key);
 
   @override
-  State<PasswordReset> createState() => _PasswordResetState();
+  State<AddNotifications> createState() => _AddNotificationsState();
 }
 
-class _PasswordResetState extends State<PasswordReset> {
+class _AddNotificationsState extends State<AddNotifications> {
   final GlobalKey<FormState> _formKey = GlobalKey();
-  final TextEditingController _oldPasscontroller = TextEditingController();
-  final TextEditingController _newPasscontroller = TextEditingController();
-  final TextEditingController _confirmNewPasscontroller =
-      TextEditingController();
+  final TextEditingController _controller = TextEditingController();
+  final TextEditingController _titleController = TextEditingController();
 
   @override
   void dispose() {
-    _oldPasscontroller.dispose();
-    _newPasscontroller.dispose();
-    _confirmNewPasscontroller.dispose();
+    _controller.dispose();
+    _titleController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Theme.of(context).brightness == Brightness.light
+            ? kLightSecondaryColor
+            : kDarkPrimaryColor,
         appBar: AppBar(
-          title: Text('Password Reset'),
+          title: Text('Notifications'),
           backgroundColor: const Color(0xffE3002C),
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-              child: Text(
-                "Reset your Password",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.all(30),
-                child: Container(
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage("assets/auth/resetPassword.jpg"))),
-                ),
-              ),
-            ),
             AlertDialog(
+                title: Center(
+                  child: Text(
+                    "Add Notifications",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                  ),
+                ),
                 content: Form(
                   key: _formKey,
                   child: Column(
                     children: [
-                      SizedBox(
-                        height: 20,
-                      ),
                       TextFormField(
-                        controller: _oldPasscontroller,
+                        controller: _titleController,
                         keyboardType: TextInputType.text,
                         decoration: const InputDecoration(
-                          hintText: "Enter Old Password",
+                          hintText: "Title",
                           filled: true,
                         ),
                         textInputAction: TextInputAction.done,
                         validator: (String? text) {
                           if (text == null || text.isEmpty) {
-                            return "Please Enter Old Password!";
-                          }
-                          return null;
-                        },
-                      ),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      TextFormField(
-                        controller: _newPasscontroller,
-                        keyboardType: TextInputType.text,
-                        decoration: const InputDecoration(
-                          hintText: "Enter New Password",
-                          filled: true,
-                        ),
-                        textInputAction: TextInputAction.done,
-                        validator: (String? text) {
-                          if (text == null || text.isEmpty) {
-                            return "Please Enter New Password!";
+                            return "Please Enter Notification Title!";
                           }
                           return null;
                         },
@@ -96,16 +64,18 @@ class _PasswordResetState extends State<PasswordReset> {
                         height: 30,
                       ),
                       TextFormField(
-                        controller: _confirmNewPasscontroller,
-                        keyboardType: TextInputType.text,
+                        controller: _controller,
+                        keyboardType: TextInputType.multiline,
                         decoration: const InputDecoration(
-                          hintText: "Confirm New Password",
+                          hintText: "Enter notification message.",
                           filled: true,
                         ),
+                        maxLines: 5,
+                        maxLength: 4096,
                         textInputAction: TextInputAction.done,
                         validator: (String? text) {
                           if (text == null || text.isEmpty) {
-                            return "Please Confirm New Password!";
+                            return "Please Enter notification message!";
                           }
                           return null;
                         },
@@ -127,16 +97,17 @@ class _PasswordResetState extends State<PasswordReset> {
 
                           try {
                             final collection = FirebaseFirestore.instance
-                                .collection("resetpass");
+                                .collection("Notifications");
 
                             await collection.doc().set({
                               'Timestamp': FieldValue.serverTimestamp(),
-                              'Feedback': _oldPasscontroller.text,
+                              'Title': _titleController.text,
+                              'Message': _controller.text,
                             });
 
-                            message = "Feedback Sent Successfully!";
+                            message = "Notification added Successfully!";
                           } catch (_) {
-                            message = "Error while sending feedback!";
+                            message = "Error while adding Notification!";
                           }
 
                           ScaffoldMessenger.of(context)
