@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:sanchari/UI/Home/qrCode.dart';
 import 'package:sanchari/constants.dart';
 
 class BusDetails extends StatefulWidget {
@@ -52,6 +53,10 @@ class _BusDetailsState extends State<BusDetails> {
                   child: ElevatedButton.icon(
                     onPressed: () {
                       // Respond to button press
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Qrcode()),
+                      );
                     },
                     label: Text("Scan With QR Code"),
                     icon: Icon(Icons.qr_code_scanner_sharp, size: 18),
@@ -153,7 +158,7 @@ class _BusDetailsState extends State<BusDetails> {
                           width: screenWidth,
                           child: ElevatedButton(
                             onPressed: () {
-                              // Respond to button press
+                              // / Respond to button press
                             },
                             child: Text('Update Bus Details'),
                           ),

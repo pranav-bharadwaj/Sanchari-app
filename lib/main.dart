@@ -1,7 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:sanchari/Models/user_model.dart';
 import 'package:sanchari/Providers/darkTheme_provider.dart';
+import 'package:sanchari/Providers/qrCodeProvider.dart';
+import 'package:sanchari/UI/Auth/Login.dart';
 import 'package:sanchari/UI/Home/bookMark.dart';
 import 'package:sanchari/UI/profile.dart';
 import 'package:sanchari/constants.dart';
@@ -17,6 +22,7 @@ Future<void> main() async {
 
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => DarkTheme()),
+    ChangeNotifierProvider(create: (_) => QrcodeProvider())
   ], child: MyApp()));
 }
 
@@ -53,7 +59,9 @@ class MyApp extends StatelessWidget {
               ],
             ),
             splashIconSize: 140,
-            nextScreen: MyHomePage(),
+            nextScreen: FirebaseAuth.instance.currentUser != null
+                ? MyHomePage()
+                : Login(),
             splashTransition: SplashTransition.fadeTransition,
             backgroundColor: const Color(0xffE3002C)));
   }
@@ -85,20 +93,22 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  // User? user = FirebaseAuth.instance.currentUser;
-  // UserModel loggedInUser = UserModel();
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   FirebaseFirestore.instance
-  //       .collection("Users")
-  //       .doc(user!.uid)
-  //       .get()
-  //       .then((value) {
-  //     this.loggedInUser = UserModel.fromMap(value.data());
-  //     setState(() {});
-  //   });
-  // }
+  User? user = FirebaseAuth.instance.currentUser;
+
+  UserModel loggedInUser = UserModel();
+  @override
+  void initState() {
+    super.initState();
+    FirebaseFirestore.instance
+        .collection("Users")
+        .doc(user?.uid)
+        .get()
+        .then((value) {
+      // this.loggedInUser = UserModel.fromMap(value.data());
+      print("fetching");
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +123,8 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Profile()),
+                  MaterialPageRoute(
+                      builder: (context) => user != null ? Profile() : Login()),
                 );
               },
               icon: const Icon(Icons.person)),

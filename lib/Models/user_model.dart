@@ -27,7 +27,9 @@ class UserModel {
         email: map['Email'],
         fullname: map['Fullname'],
         isEmployee: map['isEmployee'],
-        isAdmin: map['isAdmin']);
+        isAdmin: map['isAdmin'],
+        dateofbirth: map['DateOfBirth'],
+        phoneNumber: map['phonenumber']);
   }
 
   // sending data to our server
