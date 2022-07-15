@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_place/google_place.dart';
+import 'package:sanchari/UI/googleMapScreen.dart';
 import 'package:sanchari/constants.dart';
 
 class LocationSearch extends StatefulWidget {
@@ -326,9 +327,11 @@ class _LocationSearchState extends State<LocationSearch> {
                                         height: double.infinity,
                                         child: IconButton(
                                           onPressed: () {
-                                            print(
-                                                Theme.of(context).brightness ==
-                                                    Brightness.light);
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        GoogleMapScreen()));
                                           },
                                           icon: Icon(Icons.directions),
                                           color: Colors.blue,

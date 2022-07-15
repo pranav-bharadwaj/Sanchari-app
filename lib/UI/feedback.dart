@@ -74,7 +74,7 @@ class _FeedBackState extends State<FeedBack> {
 
                           try {
                             final collection = FirebaseFirestore.instance
-                                .collection("Feedback");
+                               .collection("Feedback");
 
                             await collection.doc().set({
                               'Timestamp': FieldValue.serverTimestamp(),

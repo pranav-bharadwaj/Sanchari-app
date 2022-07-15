@@ -88,20 +88,39 @@ class Search extends StatelessWidget {
                                 ),
                                 title: Text("KA - 13 F-3456"),
                                 subtitle: Text("Hassan - Sakleshpur"),
-                                trailing: Container(
-                                  height: double.infinity,
-                                  child: IconButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const GoogleMapScreen()));
-                                    },
-                                    icon: Icon(Icons.directions),
-                                    color: Colors.blue,
-                                    iconSize: 40.0,
-                                  ),
+                                trailing: Wrap(
+                                  spacing: 12, // space between two icons
+                                  children: <Widget>[
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const GoogleMapScreen()));
+                                      },
+                                      child: Icon(
+                                        Icons.directions,
+                                        color: Colors.blue,
+                                        size: 35,
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        // code to add bookmark to firebase
+
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                                content: Text(
+                                                    "Bookmark added Successfully!")));
+                                      },
+                                      child: Icon(
+                                        Icons.bookmark_add_outlined,
+                                        color: Colors.blue,
+                                        size: 35,
+                                      ),
+                                    ), // icon-1
+                                  ],
                                 ),
                               ),
                               elevation: 10,

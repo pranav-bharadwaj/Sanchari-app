@@ -28,6 +28,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     
     double screenWidth = MediaQuery.of(context).size.width;
+    // ignore: unused_local_variable
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(

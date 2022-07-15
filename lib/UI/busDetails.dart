@@ -1,5 +1,14 @@
+// ignore_for_file: unused_field, unused_local_variable
+
+import 'dart:async';
+
 import "package:flutter/material.dart";
+
 import 'package:sanchari/UI/Home/qrCode.dart';
+
+import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:google_place/google_place.dart';
+
 import 'package:sanchari/constants.dart';
 
 class BusDetails extends StatefulWidget {
@@ -122,7 +131,7 @@ class _BusDetailsState extends State<BusDetails> {
                               padding: EdgeInsets.only(
                                   left: 10, right: 3, bottom: 3),
                               child: Icon(
-                                Icons.numbers_outlined,
+                                Icons.directions_bus_rounded,
                                 size: 25,
                                 color: Theme.of(context).brightness ==
                                         Brightness.light
@@ -230,16 +239,51 @@ class FriendTextFields extends StatefulWidget {
 class _FriendTextFieldsState extends State<FriendTextFields> {
   TextEditingController _nameController = TextEditingController();
 
+  DetailsResult? startPosition;
+  late FocusNode startFocusNode;
+
+  late GooglePlace googlePlace;
+  List<AutocompletePrediction> predictions = [];
+
+  bool _searched = true;
+
+  Timer? _debounce;
+
   @override
   void initState() {
     super.initState();
-    _nameController = TextEditingController();
+    this._nameController = TextEditingController();
+
+    String apiKey = 'AIzaSyCslHZgsw_rDgdBsRSz2JSqHkMldK0p9Ig';
+    googlePlace = GooglePlace(apiKey);
+
+    startFocusNode = FocusNode();
   }
 
   @override
   void dispose() {
     _nameController.dispose();
+    startFocusNode.dispose();
     super.dispose();
+  }
+
+  void autoCompleteSearch(String value) async {
+    var result = await googlePlace.autocomplete.get(value);
+    if (result != null && result.predictions != null && mounted) {
+      print(result.predictions!.first.description);
+      Iterable<String> s = [];
+      setState(() {
+        predictions = result.predictions!;
+      });
+    } else {
+      print("cool");
+    }
+  }
+
+  void searchFunc() {
+    setState(() {
+      _searched = !_searched;
+    });
   }
 
   @override
@@ -248,56 +292,78 @@ class _FriendTextFieldsState extends State<FriendTextFields> {
       _nameController.text = _BusDetailsState.friendsList[widget.index];
     });
 
-    return TextFormField(
-      controller: _nameController,
-      onChanged: (v) => _BusDetailsState.friendsList[widget.index] = v,
-      cursorColor: Colors.red,
-      // controller: emailEditingController,
-      keyboardType: TextInputType.emailAddress,
-      validator: (value) {
-        if (value!.isEmpty) {
-          return ("Please Enter Your Email");
+    return TypeAheadFormField(
+      suggestionsCallback: (pattern) async {
+        _BusDetailsState.friendsList[widget.index] = pattern;
+
+        if (pattern.length > 0) {
+          var result = await googlePlace.autocomplete.get(pattern);
+          if (result != null && result.predictions != null && mounted) {
+            if (result.predictions!.length == 0) {
+              return Iterable<String>.empty();
+            }
+            List<String> l = [];
+            for (var element in result.predictions!) {
+              l.add(element.description!);
+            }
+            return l;
+          }
+          return Iterable<String>.empty();
         }
-        // reg expression for email validation
-        if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)) {
-          return ("Please Enter a valid email");
-        }
-        return null;
+
+        return Iterable<String>.empty();
       },
-      onSaved: (value) {
-        // emailEditingController.text = value!;
-      },
-      style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-      decoration: InputDecoration(
-        labelText: "Bus Stops",
-        labelStyle:
-            TextStyle(color: kAccentColor, fontWeight: FontWeight.normal),
-        isDense: true,
-        prefixIcon: Padding(
-          padding: EdgeInsets.only(left: 10, right: 3, bottom: 3),
-          child: Icon(
-            Icons.gps_fixed,
-            size: 25,
-            color: Theme.of(context).brightness == Brightness.light
-                ? Colors.black26
-                : Colors.white24,
-          ),
-        ),
-        hintText: "Enter New Bus Stop",
-        hintStyle: TextStyle(
-          fontWeight: FontWeight.w500,
-          fontFamily: "OpenSans",
-          color: Theme.of(context).brightness == Brightness.light
-              ? Colors.black26
-              : Colors.white24,
-        ),
-        border: OutlineInputBorder(),
-        prefixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.0),
-          borderSide: BorderSide(color: Colors.red, width: 2.0),
-        ),
+      getImmediateSuggestions: true,
+      hideSuggestionsOnKeyboardHide: false,
+      hideOnEmpty: false,
+      noItemsFoundBuilder: (context) => Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Text("No Location found!"),
       ),
+      itemBuilder: (BuildContext context, String itemData) => ListTile(
+        title: Text(itemData),
+      ),
+      onSuggestionSelected: (String val) {
+        print("on selected value = >>>> " + val);
+        this._nameController.text = val;
+        print(this._nameController.text);
+      },
+      textFieldConfiguration: TextFieldConfiguration(
+          controller: _nameController,
+          focusNode: startFocusNode,
+          cursorColor: Colors.red,
+          keyboardType: TextInputType.emailAddress,
+          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+          decoration: InputDecoration(
+            labelText: "Bus Stops",
+            labelStyle:
+                TextStyle(color: kAccentColor, fontWeight: FontWeight.normal),
+            isDense: true,
+            prefixIcon: Padding(
+              padding: EdgeInsets.only(left: 10, right: 3, bottom: 3),
+              child: Icon(
+                Icons.location_on,
+                size: 25,
+                color: Theme.of(context).brightness == Brightness.light
+                    ? Colors.black26
+                    : Colors.white24,
+              ),
+            ),
+            hintText: "Add New Stop",
+            hintStyle: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontFamily: "OpenSans",
+              color: Theme.of(context).brightness == Brightness.light
+                  ? Colors.black26
+                  : Colors.white24,
+            ),
+            border: OutlineInputBorder(),
+            prefixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.0),
+              borderSide: BorderSide(color: Colors.red, width: 2.0),
+            ),
+          )),
     );
   }
 }
