@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -117,7 +118,7 @@ class Profile extends StatelessWidget {
               onTap: () => {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const EditProfile()),
+                  MaterialPageRoute(builder: (context) => EditProfile()),
                 )
               },
               child: ProfileListItem(
@@ -175,10 +176,17 @@ class Profile extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () => {
+
+                FirebaseAuth.instance.signOut(),
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => Login()),
+                    (Route<dynamic> route) => false)
+
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Login()),
                 )
+
               },
               child: ProfileListItem(
                 icon: LineAwesomeIcons.alternate_sign_out,
