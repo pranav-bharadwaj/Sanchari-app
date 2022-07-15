@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sanchari/UI/Admin/addEmployee.dart';
 import 'package:sanchari/UI/Admin/addNotifications.dart';
+import 'package:sanchari/UI/Admin/viewEmployees.dart';
 import 'package:sanchari/constants.dart';
 
 class AdminDashboard extends StatefulWidget {
@@ -101,9 +102,18 @@ class _AdminDashboardState extends State<AdminDashboard> {
                           iconSrc: "assets/admin/bell.jpg",
                           title: "Notifications"),
                     ),
-                    AdminCategoryCard(
-                        iconSrc: "assets/admin/teamwork.png",
-                        title: "View Employees"),
+                    GestureDetector(
+                      onTap: () => {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ViewEmployees()),
+                        )
+                      },
+                      child: AdminCategoryCard(
+                          iconSrc: "assets/admin/teamwork.png",
+                          title: "View Employees"),
+                    ),
                   ],
                 ))
               ],
