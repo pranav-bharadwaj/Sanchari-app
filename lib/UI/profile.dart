@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:sanchari/Providers/darkTheme_provider.dart';
 import 'package:sanchari/UI/Admin/adminDashboard.dart';
+import 'package:sanchari/UI/Auth/Login.dart';
 import 'package:sanchari/UI/busDetails.dart';
 import 'package:sanchari/constants.dart';
 import 'package:sanchari/UI/contactUs.dart';
@@ -16,7 +17,6 @@ import 'package:provider/provider.dart';
 class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    
     ScreenUtil.init(context);
     var profileInfo = Expanded(
       child: Column(
@@ -173,10 +173,18 @@ class Profile extends StatelessWidget {
                 text: 'Invite a Friend',
               ),
             ),
-            ProfileListItem(
-              icon: LineAwesomeIcons.alternate_sign_out,
-              text: 'Logout',
-              hasNavigation: false,
+            GestureDetector(
+              onTap: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Login()),
+                )
+              },
+              child: ProfileListItem(
+                icon: LineAwesomeIcons.alternate_sign_out,
+                text: 'Logout',
+                hasNavigation: false,
+              ),
             ),
           ],
         ))

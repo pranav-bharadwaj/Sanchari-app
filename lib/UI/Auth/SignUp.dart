@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import "package:flutter/material.dart";
 import 'package:sanchari/Models/user_model.dart';
 import 'package:sanchari/UI/Auth/Login.dart';
