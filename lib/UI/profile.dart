@@ -176,17 +176,10 @@ class Profile extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () => {
-
                 FirebaseAuth.instance.signOut(),
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(builder: (context) => Login()),
                     (Route<dynamic> route) => false)
-
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Login()),
-                )
-
               },
               child: ProfileListItem(
                 icon: LineAwesomeIcons.alternate_sign_out,
