@@ -19,27 +19,20 @@ class _UpdateBusDetailsState extends State<UpdateBusDetails> {
   GlobalKey<FormState> globalKey = GlobalKey<FormState>();
   BusDetail busDetail = BusDetail();
 
-  late TextEditingController _placeController;
-  late String _selectedLocation;
-  DetailsResult? startPosition;
-  late FocusNode startFocusNode;
+  List<TextEditingController> _controllers = [];
+  List<FocusNode> _focusNodes = [];
 
   late GooglePlace googlePlace;
-  List<AutocompletePrediction> predictions = [];
-
-  bool _searched = true;
-
-  Timer? _debounce;
 
   @override
   void initState() {
     super.initState();
-    this._placeController = new TextEditingController();
+    this._controllers.add(TextEditingController());
 
     String apiKey = 'AIzaSyCslHZgsw_rDgdBsRSz2JSqHkMldK0p9Ig';
     googlePlace = GooglePlace(apiKey);
 
-    startFocusNode = FocusNode();
+    this._focusNodes.add(FocusNode());
     busDetail.busStops = new List<String>.empty(growable: true);
     busDetail.isActive = false;
     busDetail.busStops!.add("");
@@ -47,34 +40,18 @@ class _UpdateBusDetailsState extends State<UpdateBusDetails> {
 
   @override
   void dispose() {
-    _placeController.dispose();
-    startFocusNode.dispose();
-    super.dispose();
-  }
-
-  void autoCompleteSearch(String value) async {
-    var result = await googlePlace.autocomplete.get(value);
-    if (result != null && result.predictions != null && mounted) {
-      print(result.predictions!.first.description);
-      Iterable<String> s = [];
-      setState(() {
-        predictions = result.predictions!;
-      });
-    } else {
-      print("cool");
+    for (final controller in _controllers) {
+      controller.dispose();
     }
-  }
-
-  void searchFunc() {
-    setState(() {
-      _searched = !_searched;
-    });
+    for (final focusNode in _focusNodes) {
+      focusNode.dispose();
+    }
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Theme.of(context).brightness == Brightness.light
           ? kLightSecondaryColor
@@ -121,8 +98,8 @@ class _UpdateBusDetailsState extends State<UpdateBusDetails> {
                     busDetail.isActive = value;
                   });
                 },
-                activeTrackColor: Colors.orangeAccent,
-                activeColor: Colors.green,
+                activeTrackColor: Colors.green,
+                activeColor: Colors.white,
               ),
             ],
           ),
@@ -147,7 +124,7 @@ class _UpdateBusDetailsState extends State<UpdateBusDetails> {
                       TextFormField(
                         cursorColor: Colors.red,
                         // controller: busEditingController,
-                        keyboardType: TextInputType.emailAddress,
+                        keyboardType: TextInputType.text,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return "Please Enter Bus Number";
@@ -164,7 +141,7 @@ class _UpdateBusDetailsState extends State<UpdateBusDetails> {
                         //   print(busEditingController.text);
                         // },
                         style: TextStyle(
-                            fontWeight: FontWeight.w500, fontSize: 16),
+                            fontWeight: FontWeight.w400, fontSize: 16),
                         decoration: InputDecoration(
                           labelText: "Bus Number",
                           labelStyle: TextStyle(
@@ -220,17 +197,6 @@ class _UpdateBusDetailsState extends State<UpdateBusDetails> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            "Add Stop",
-            textAlign: TextAlign.left,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
         ListView.separated(
             shrinkWrap: true,
             physics: const ScrollPhysics(),
@@ -247,25 +213,23 @@ class _UpdateBusDetailsState extends State<UpdateBusDetails> {
 
   Widget stopsUI(index) {
     return Padding(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
       child: Row(
         children: [
           Flexible(
             child: TypeAheadFormField(
               suggestionsCallback: (pattern) async {
-                // _BusDetailsState.friendsList[widget.index] = pattern;
-
                 if (pattern.length > 0) {
                   var result = await googlePlace.autocomplete.get(pattern);
                   if (result != null && result.predictions != null && mounted) {
                     if (result.predictions!.length == 0) {
                       return Iterable<String>.empty();
                     }
-                    List<String> l = [];
+                    List<String> locations = [];
                     for (var element in result.predictions!) {
-                      l.add(element.description!);
+                      locations.add(element.description!);
                     }
-                    return l;
+                    return locations;
                   }
                   return Iterable<String>.empty();
                 }
@@ -283,22 +247,25 @@ class _UpdateBusDetailsState extends State<UpdateBusDetails> {
                 title: Text(itemData),
               ),
               onSuggestionSelected: (String val) {
-                // this._placeController = new TextEditingController();
-                this._placeController.text = val.toString();
-                this.busDetail.busStops![index] = val.toString();
-                print(this.busDetail);
+                this._controllers[index].text = val;
+                this.busDetail.busStops![index] = val;
               },
-              // onSaved: (value) {
-              //   this._selectedLocation = value!;
-              //   print("Value =====> " + value);
-              // },
+              onSaved: (value) {
+                this.busDetail.busStops![index] = value!;
+              },
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return "Stop ${index + 1} can't be empty";
+                }
+                return null;
+              },
               textFieldConfiguration: TextFieldConfiguration(
-                  controller: this._placeController,
+                  controller: this._controllers[index],
                   textInputAction: TextInputAction.done,
-                  focusNode: startFocusNode,
+                  focusNode: _focusNodes[index],
                   cursorColor: Colors.red,
                   keyboardType: TextInputType.text,
-                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+                  style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16),
                   decoration: InputDecoration(
                     labelText: "Bus Stops",
                     labelStyle: TextStyle(
@@ -368,7 +335,11 @@ class _UpdateBusDetailsState extends State<UpdateBusDetails> {
   }
 
   void addStopsControl() {
+    final controller = TextEditingController();
+    final focusNode = FocusNode();
     setState(() {
+      _controllers.add(controller);
+      _focusNodes.add(focusNode);
       busDetail.busStops!.add("");
     });
   }
@@ -377,6 +348,8 @@ class _UpdateBusDetailsState extends State<UpdateBusDetails> {
     setState(() {
       if (busDetail.busStops!.length > 1) {
         busDetail.busStops!.removeAt(index);
+        _focusNodes.removeAt(index);
+        _controllers.removeAt(index);
       }
     });
   }
@@ -391,61 +364,3 @@ class _UpdateBusDetailsState extends State<UpdateBusDetails> {
     }
   }
 }
-
-
-
-/*
-
-TextFormField(
-              cursorColor: Colors.red,
-              // controller: busEditingController,
-              keyboardType: TextInputType.emailAddress,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return "Stop ${index + 1} can't be empty";
-                }
-                return null;
-              },
-              onSaved: (onSavedVal) {
-                this.busDetail.busStops![index] = onSavedVal!;
-              },
-              initialValue: busDetail.busNumber ?? "",
-              // onChanged: (value) {
-              //   busEditingController.text = value;
-
-              //   print(busEditingController.text);
-              // },
-              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-              decoration: InputDecoration(
-                labelText: "Bus Stop",
-                labelStyle: TextStyle(
-                    color: kAccentColor, fontWeight: FontWeight.normal),
-                isDense: true,
-                prefixIcon: Padding(
-                  padding: EdgeInsets.only(left: 10, right: 3, bottom: 3),
-                  child: Icon(
-                    Icons.directions_bus_rounded,
-                    size: 25,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black26
-                        : Colors.white24,
-                  ),
-                ),
-                hintText: "Add Bus Stop",
-                hintStyle: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontFamily: "OpenSans",
-                  color: Theme.of(context).brightness == Brightness.light
-                      ? Colors.black26
-                      : Colors.white24,
-                ),
-                border: OutlineInputBorder(),
-                prefixIconConstraints:
-                    BoxConstraints(minWidth: 0, minHeight: 0),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                  borderSide: BorderSide(color: Colors.red, width: 2.0),
-                ),
-              ),
-            ),
-*/
