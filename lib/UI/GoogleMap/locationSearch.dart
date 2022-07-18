@@ -126,7 +126,7 @@ class _LocationSearchState extends State<LocationSearch> {
                         _searched = true;
                       });
                       if (_debounce?.isActive ?? false) _debounce!.cancel();
-                      _debounce = Timer(Duration(milliseconds: 2000), () {
+                      _debounce = Timer(Duration(milliseconds: 1000), () {
                         if (value.isNotEmpty) {
                           autoCompleteSearch(value);
                         } else {
@@ -193,7 +193,7 @@ class _LocationSearchState extends State<LocationSearch> {
                         _searched = true;
                       });
                       if (_debounce?.isActive ?? false) _debounce!.cancel();
-                      _debounce = Timer(Duration(milliseconds: 2000), () {
+                      _debounce = Timer(Duration(milliseconds: 1000), () {
                         if (value.isNotEmpty) {
                           autoCompleteSearch(value);
                         } else {
