@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import 'package:sanchari/UI/locationSearch.dart';
+import 'package:sanchari/UI/GoogleMap/locationSearch.dart';
 import 'package:sanchari/constants.dart';
 
 class Home extends StatefulWidget {

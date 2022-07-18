@@ -21,8 +21,11 @@ class BusDetails extends StatefulWidget {
 class _BusDetailsState extends State<BusDetails> {
   bool isSwitched = false;
   final _formKey = GlobalKey<FormState>();
+
   TextEditingController _nameController = TextEditingController();
-  static List<String> friendsList = [""];
+  TextEditingController busEditingController = TextEditingController();
+
+  static List<String> friendsList = [];
 
   @override
   void initState() {
@@ -45,136 +48,154 @@ class _BusDetailsState extends State<BusDetails> {
         title: Text('Update Bus Details'),
         backgroundColor: const Color(0xffE3002C),
       ),
-      body: Container(
-        width: screenWidth,
-        child: SingleChildScrollView(
-          child: Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: 40,
-                ),
-                Container(
-                  width: screenWidth * 0.7,
-                  height: 50,
-                  child: ElevatedButton.icon(
-                    onPressed: () {
-                      // Respond to button press
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Qrcode()),
-                      );
-                    },
-                    label: Text("Scan With QR Code"),
-                    icon: Icon(Icons.qr_code_scanner_sharp, size: 18),
+      body: Form(
+        key: _formKey,
+        child: Container(
+          width: screenWidth,
+          child: SingleChildScrollView(
+            child: Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 40,
                   ),
-                ),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Current Bus Status",
-                      style: TextStyle(
-                          color: Color.fromARGB(136, 46, 38, 63),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18),
-                    ),
-                    Switch(
-                      value: isSwitched,
-                      onChanged: (value) {
-                        setState(() {
-                          isSwitched = value;
-                          print(isSwitched);
-                        });
+                  Container(
+                    width: screenWidth * 0.7,
+                    height: 50,
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        // Respond to button press
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Qrcode()),
+                        );
                       },
-                      activeTrackColor: Colors.orangeAccent,
-                      activeColor: Colors.green,
+                      label: Text("Scan With QR Code"),
+                      icon: Icon(Icons.qr_code_scanner_sharp, size: 18),
                     ),
-                  ],
-                ),
-                SizedBox(height: 25),
-                Container(
-                    width: screenWidth * 0.8,
-                    child: Column(
-                      children: [
-                        TextFormField(
-                          cursorColor: Colors.red,
-                          // controller: emailEditingController,
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return ("Please Enter Your Email");
-                            }
-                            // reg expression for email validation
-                            if (!RegExp(
-                                    "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
-                                .hasMatch(value)) {
-                              return ("Please Enter a valid email");
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            // emailEditingController.text = value!;
-                          },
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 16),
-                          decoration: InputDecoration(
-                            labelText: "Bus Number",
-                            labelStyle: TextStyle(
-                                color: kAccentColor,
-                                fontWeight: FontWeight.normal),
-                            isDense: true,
-                            prefixIcon: Padding(
-                              padding: EdgeInsets.only(
-                                  left: 10, right: 3, bottom: 3),
-                              child: Icon(
-                                Icons.directions_bus_rounded,
-                                size: 25,
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Current Bus Status",
+                        style: TextStyle(
+                            color: Color.fromARGB(136, 46, 38, 63),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18),
+                      ),
+                      Switch(
+                        value: isSwitched,
+                        onChanged: (value) {
+                          setState(() {
+                            isSwitched = value;
+                            print(isSwitched);
+                          });
+                        },
+                        activeTrackColor: Colors.orangeAccent,
+                        activeColor: Colors.green,
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 25),
+                  Container(
+                      width: screenWidth * 0.8,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 32.0),
+                            child: TextFormField(
+                              controller: _nameController,
+                              decoration:
+                                  InputDecoration(hintText: 'Enter your name'),
+                              validator: (v) {
+                                if (v!.isEmpty)
+                                  return 'Please enter something';
+                                return null;
+                              },
+                            ),
+                          ),
+                          TextFormField(
+                            cursorColor: Colors.red,
+                            controller: busEditingController,
+                            keyboardType: TextInputType.emailAddress,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return ("Please Enter Your Email");
+                              }
+                              // reg expression for email validation
+                              if (!RegExp(
+                                      "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                                  .hasMatch(value)) {
+                                return ("Please Enter a valid email");
+                              }
+                              return null;
+                            },
+                            onChanged: (value) {
+                              busEditingController.text = value;
+
+                              print(busEditingController.text);
+                            },
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500, fontSize: 16),
+                            decoration: InputDecoration(
+                              labelText: "Bus Number",
+                              labelStyle: TextStyle(
+                                  color: kAccentColor,
+                                  fontWeight: FontWeight.normal),
+                              isDense: true,
+                              prefixIcon: Padding(
+                                padding: EdgeInsets.only(
+                                    left: 10, right: 3, bottom: 3),
+                                child: Icon(
+                                  Icons.directions_bus_rounded,
+                                  size: 25,
+                                  color: Theme.of(context).brightness ==
+                                          Brightness.light
+                                      ? Colors.black26
+                                      : Colors.white24,
+                                ),
+                              ),
+                              hintText: "Enter Bus Number",
+                              hintStyle: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontFamily: "OpenSans",
                                 color: Theme.of(context).brightness ==
                                         Brightness.light
                                     ? Colors.black26
                                     : Colors.white24,
                               ),
-                            ),
-                            hintText: "Enter Bus Number",
-                            hintStyle: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontFamily: "OpenSans",
-                              color: Theme.of(context).brightness ==
-                                      Brightness.light
-                                  ? Colors.black26
-                                  : Colors.white24,
-                            ),
-                            border: OutlineInputBorder(),
-                            prefixIconConstraints:
-                                BoxConstraints(minWidth: 0, minHeight: 0),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                              borderSide:
-                                  BorderSide(color: Colors.red, width: 2.0),
+                              border: OutlineInputBorder(),
+                              prefixIconConstraints:
+                                  BoxConstraints(minWidth: 0, minHeight: 0),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                                borderSide:
+                                    BorderSide(color: Colors.red, width: 2.0),
+                              ),
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        ..._getFriends(),
-                        SizedBox(height: 25),
-                        Container(
-                          width: screenWidth,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              // / Respond to button press
-                            },
-                            child: Text('Update Bus Details'),
+                          SizedBox(
+                            height: 20,
                           ),
-                        ),
-                      ],
-                    ))
-              ],
+                          ..._getFriends(),
+                          SizedBox(height: 25),
+                          Container(
+                            width: screenWidth,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                // / Respond to button press
+                              },
+                              child: Text('Update Bus Details'),
+                            ),
+                          ),
+                        ],
+                      ))
+                ],
+              ),
             ),
           ),
         ),
@@ -189,7 +210,7 @@ class _BusDetailsState extends State<BusDetails> {
         padding: const EdgeInsets.symmetric(vertical: 16.0),
         child: Row(
           children: [
-            Expanded(child: FriendTextFields(i)),
+            Expanded(child: new FriendTextFields(i)),
             SizedBox(
               width: 16,
             ),
@@ -237,8 +258,8 @@ class FriendTextFields extends StatefulWidget {
 }
 
 class _FriendTextFieldsState extends State<FriendTextFields> {
-  TextEditingController _nameController = TextEditingController();
-
+  late TextEditingController _placeController;
+  late String _selectedLocation;
   DetailsResult? startPosition;
   late FocusNode startFocusNode;
 
@@ -252,7 +273,7 @@ class _FriendTextFieldsState extends State<FriendTextFields> {
   @override
   void initState() {
     super.initState();
-    this._nameController = TextEditingController();
+    this._placeController = new TextEditingController();
 
     String apiKey = 'AIzaSyCslHZgsw_rDgdBsRSz2JSqHkMldK0p9Ig';
     googlePlace = GooglePlace(apiKey);
@@ -262,7 +283,7 @@ class _FriendTextFieldsState extends State<FriendTextFields> {
 
   @override
   void dispose() {
-    _nameController.dispose();
+    _placeController.dispose();
     startFocusNode.dispose();
     super.dispose();
   }
@@ -289,7 +310,7 @@ class _FriendTextFieldsState extends State<FriendTextFields> {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _nameController.text = _BusDetailsState.friendsList[widget.index];
+      _placeController.text = _BusDetailsState.friendsList[widget.index];
     });
 
     return TypeAheadFormField(
@@ -324,15 +345,21 @@ class _FriendTextFieldsState extends State<FriendTextFields> {
         title: Text(itemData),
       ),
       onSuggestionSelected: (String val) {
-        print("on selected value = >>>> " + val);
-        this._nameController.text = val;
-        print(this._nameController.text);
+        // this._placeController = new TextEditingController();
+        this._placeController.text = val.toString();
+
+        print(this._placeController.text);
       },
+      // onSaved: (value) {
+      //   this._selectedLocation = value!;
+      //   print("Value =====> " + value);
+      // },
       textFieldConfiguration: TextFieldConfiguration(
-          controller: _nameController,
+          controller: this._placeController,
+          textInputAction: TextInputAction.done,
           focusNode: startFocusNode,
           cursorColor: Colors.red,
-          keyboardType: TextInputType.emailAddress,
+          keyboardType: TextInputType.text,
           style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
           decoration: InputDecoration(
             labelText: "Bus Stops",
