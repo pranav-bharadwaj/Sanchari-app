@@ -262,6 +262,7 @@ class _LocationSearchState extends State<LocationSearch> {
 
                             if (startPosition != null && endPosition != null) {
                               print("navigation");
+
                               // code to search bus based on start and end location
                             }
                           }
