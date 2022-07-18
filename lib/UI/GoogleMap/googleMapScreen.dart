@@ -32,7 +32,9 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
 
     location.onLocationChanged.listen((newLoc) {
       currentLocation = newLoc;
-      setState(() {});
+      setState(() {
+        currentLocation = newLoc;
+      });
     });
   }
 

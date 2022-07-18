@@ -94,6 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   User? user = FirebaseAuth.instance.currentUser;
+  
 
   UserModel loggedInUser = UserModel();
   @override
@@ -104,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
         .doc(user?.uid)
         .get()
         .then((value) {
-      // this.loggedInUser = UserModel.fromMap(value.data());
+      this.loggedInUser = UserModel.fromMap(value.data());
       print("fetching");
       setState(() {});
     });

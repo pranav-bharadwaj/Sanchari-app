@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_place/google_place.dart';
-import 'package:sanchari/UI/googleMapScreen.dart';
+import 'package:sanchari/UI/GoogleMap/googleMapScreen.dart';
 import 'package:sanchari/constants.dart';
 
 class LocationSearch extends StatefulWidget {

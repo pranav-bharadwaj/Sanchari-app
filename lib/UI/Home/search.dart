@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sanchari/UI/googleMapScreen.dart';
+import 'package:sanchari/UI/GoogleMap/googleMapScreen.dart';
 import 'package:sanchari/constants.dart';
 
 class Search extends StatelessWidget {
