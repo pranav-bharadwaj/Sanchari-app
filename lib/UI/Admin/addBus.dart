@@ -2,22 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sanchari/constants.dart';
 
-class AddNotifications extends StatefulWidget {
-  const AddNotifications({Key? key}) : super(key: key);
+class AddBus extends StatefulWidget {
+  const AddBus({Key? key}) : super(key: key);
 
   @override
-  State<AddNotifications> createState() => _AddNotificationsState();
+  State<AddBus> createState() => _AddBusState();
 }
 
-class _AddNotificationsState extends State<AddNotifications> {
+class _AddBusState extends State<AddBus> {
   final GlobalKey<FormState> _formKey = GlobalKey();
   final TextEditingController _controller = TextEditingController();
-  final TextEditingController _titleController = TextEditingController();
 
   @override
   void dispose() {
     _controller.dispose();
-    _titleController.dispose();
     super.dispose();
   }
 
@@ -28,7 +26,7 @@ class _AddNotificationsState extends State<AddNotifications> {
             ? kLightSecondaryColor
             : kDarkPrimaryColor,
         appBar: AppBar(
-          title: Text('Notifications'),
+          title: Text('Bus Number'),
           backgroundColor: const Color(0xffE3002C),
         ),
         body: Column(
@@ -37,7 +35,7 @@ class _AddNotificationsState extends State<AddNotifications> {
             AlertDialog(
                 title: Center(
                   child: Text(
-                    "Add Notifications",
+                    "Add Bus Number",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                   ),
                 ),
@@ -46,36 +44,16 @@ class _AddNotificationsState extends State<AddNotifications> {
                   child: Column(
                     children: [
                       TextFormField(
-                        controller: _titleController,
+                        controller: _controller,
                         keyboardType: TextInputType.text,
                         decoration: const InputDecoration(
-                          hintText: "Title",
+                          hintText: "Enter Bus Number",
                           filled: true,
                         ),
                         textInputAction: TextInputAction.done,
                         validator: (String? text) {
                           if (text == null || text.isEmpty) {
-                            return "Please Enter Notification Title!";
-                          }
-                          return null;
-                        },
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      TextFormField(
-                        controller: _controller,
-                        keyboardType: TextInputType.multiline,
-                        decoration: const InputDecoration(
-                          hintText: "Enter notification message.",
-                          filled: true,
-                        ),
-                        maxLines: 5,
-                        maxLength: 4096,
-                        textInputAction: TextInputAction.done,
-                        validator: (String? text) {
-                          if (text == null || text.isEmpty) {
-                            return "Please Enter notification message!";
+                            return "Please Enter Bus Number!";
                           }
                           return null;
                         },
@@ -97,17 +75,16 @@ class _AddNotificationsState extends State<AddNotifications> {
 
                           try {
                             final collection = FirebaseFirestore.instance
-                                .collection("Notifications");
+                                .collection("BusNumber");
 
                             await collection.doc().set({
                               'Timestamp': FieldValue.serverTimestamp(),
-                              'Title': _titleController.text,
-                              'Message': _controller.text,
+                              'BusNumber': _controller.text,
                             });
 
-                            message = "Notification added Successfully!";
+                            message = "Bus added Successfully!";
                           } catch (_) {
-                            message = "Error while adding Notification!";
+                            message = "Error while adding Bus!";
                           }
 
                           ScaffoldMessenger.of(context)
