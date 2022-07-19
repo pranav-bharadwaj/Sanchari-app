@@ -1,9 +1,10 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 
 class BusDetail {
   bool? isActive;
   String? busNumber;
-  LatLng? busLiveLocation;
+  LocationData? busLiveLocation;
   List<String>? busStops;
 
   BusDetail({this.isActive, this.busNumber, this.busStops});

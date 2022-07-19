@@ -1,8 +1,9 @@
-import 'dart:async';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_place/google_place.dart';
+import 'package:location/location.dart' as Loc;
 import 'package:sanchari/Models/busDetails_model.dart';
 import 'package:sanchari/UI/Home/qrCode.dart';
 import 'package:sanchari/constants.dart';
@@ -18,16 +19,33 @@ class UpdateBusDetails extends StatefulWidget {
 class _UpdateBusDetailsState extends State<UpdateBusDetails> {
   GlobalKey<FormState> globalKey = GlobalKey<FormState>();
   BusDetail busDetail = BusDetail();
-
   List<TextEditingController> _controllers = [];
   List<FocusNode> _focusNodes = [];
 
   late GooglePlace googlePlace;
 
+  Loc.LocationData? currentLocation;
+
+  void getCurrentLocation() async {
+    Loc.Location location = Loc.Location();
+
+    location.getLocation().then((location) {
+      currentLocation = location;
+    });
+
+    // location.onLocationChanged.listen((newLoc) {
+    //   currentLocation = newLoc;
+    //   setState(() {
+    //     currentLocation = newLoc;
+    //   });
+    // });
+  }
+
   @override
   void initState() {
     super.initState();
     this._controllers.add(TextEditingController());
+    getCurrentLocation();
 
     String apiKey = 'AIzaSyCslHZgsw_rDgdBsRSz2JSqHkMldK0p9Ig';
     googlePlace = GooglePlace(apiKey);
@@ -181,12 +199,38 @@ class _UpdateBusDetailsState extends State<UpdateBusDetails> {
                       ),
                       _stopsContainer(),
                       Center(
-                        child: FormHelper.submitButton("Update", () {
+                        child: FormHelper.submitButton("Update", () async {
+                          getCurrentLocation();
                           if (validateAndSave()) {
+                            busDetail.busLiveLocation = currentLocation;
+
                             print(busDetail.toJson());
+                            if (globalKey.currentState!.validate()) {
+                              String message;
+
+                              try {
+                                final collection = FirebaseFirestore.instance
+                                    .collection("BusLocationDetails");
+
+                                await collection.doc().update({
+                                  "BusNumber": busDetail.busNumber,
+                                  "BusStatus": busDetail.isActive,
+                                  "BusLiveLocation": busDetail.busLiveLocation,
+                                  "BusStops": busDetail.busStops
+                                });
+
+                                message = "Bus Location Updated Successfully!";
+                              } catch (_) {
+                                message = "Error while updating  Bus Location!";
+                              }
+
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(message)));
+                              // Navigator.pop(context);
+                            }
                           }
                         }),
-                      )
+                      ),
                     ])),
           ),
         ));

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sanchari/UI/Admin/addBus.dart';
 import 'package:sanchari/UI/Admin/addEmployee.dart';
 import 'package:sanchari/UI/Admin/addNotifications.dart';
 import 'package:sanchari/UI/Admin/viewEmployees.dart';
@@ -76,8 +77,16 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   crossAxisSpacing: 20,
                   mainAxisSpacing: 20,
                   children: [
-                    AdminCategoryCard(
-                        iconSrc: "assets/admin/bus.jpg", title: "Add Bus"),
+                    GestureDetector(
+                      onTap: () => {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => AddBus()),
+                        )
+                      },
+                      child: AdminCategoryCard(
+                          iconSrc: "assets/admin/bus.jpg", title: "Add Bus"),
+                    ),
                     GestureDetector(
                       onTap: () => {
                         Navigator.push(
