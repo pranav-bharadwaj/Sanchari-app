@@ -89,7 +89,7 @@ class _AddEmployeeState extends State<AddEmployee> {
 
                           ScaffoldMessenger.of(context)
                               .showSnackBar(SnackBar(content: Text(message)));
-                          Navigator.pop(context);
+                          // Navigator.pop(context);
                         }
                       },
                       child: Text("Submit"))

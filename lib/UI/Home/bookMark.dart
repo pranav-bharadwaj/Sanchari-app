@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sanchari/UI/googleMapScreen.dart';
+import 'package:sanchari/UI/GoogleMap/googleMapScreen.dart';
+import 'package:sanchari/UI/GoogleMap/updateBusDetails.dart';
 import 'package:sanchari/constants.dart';
 
 class Bookmark extends StatefulWidget {
@@ -68,7 +69,7 @@ class _BookmarkState extends State<Bookmark> {
                             GestureDetector(
                               onTap: () {
                                 // code to add bookmark to firebase
-
+                                Navigator.push(context, MaterialPageRoute(builder: ((context) => UpdateBusDetails())));
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                         content: Text(

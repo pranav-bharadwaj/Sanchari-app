@@ -13,7 +13,7 @@ class GoogleMapScreen extends StatefulWidget {
 
 class _GoogleMapScreenState extends State<GoogleMapScreen> {
   late GoogleMapController mapController;
-
+  // late BitmapDescriptor mapMarker;
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
@@ -32,7 +32,9 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
 
     location.onLocationChanged.listen((newLoc) {
       currentLocation = newLoc;
-      setState(() {});
+      setState(() {
+        currentLocation = newLoc;
+      });
     });
   }
 
@@ -53,9 +55,15 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
     }
   }
 
+  // void setCustomMarker() async {
+  //   mapMarker = await BitmapDescriptor.fromAssetImage(
+  //       ImageConfiguration(), "assets/bus.png");
+  // }
+
   @override
   void initState() {
     getCurrentLocation();
+    // setCustomMarker();
     getPolyPoints();
     super.initState();
   }
@@ -80,18 +88,22 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
               },
               markers: {
                 Marker(
-                  markerId: MarkerId("Source"),
-                  position: _sourceLocation,
-                ),
+                    markerId: MarkerId("Source"),
+                    position: _sourceLocation,
+                    infoWindow: InfoWindow(
+                        title: "Source Location", snippet: "starting point")),
                 Marker(
-                  markerId: MarkerId("CurrentLocation"),
-                  position: LatLng(
-                      currentLocation!.latitude!, currentLocation!.longitude!),
-                ),
+                    markerId: MarkerId("CurrentLocation"),
+                    position: LatLng(currentLocation!.latitude!,
+                        currentLocation!.longitude!),
+                    infoWindow: InfoWindow(
+                        title: "Live Location", snippet: "Updated 10 min ago")),
                 Marker(
-                  markerId: MarkerId("Destination"),
-                  position: _destinationLocation,
-                ),
+                    markerId: MarkerId("Destination"),
+                    position: _destinationLocation,
+                    infoWindow: InfoWindow(
+                        title: "Destination Location",
+                        snippet: "Ending point")),
               },
             ),
     );

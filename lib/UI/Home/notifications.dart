@@ -13,7 +13,6 @@ class Notifications extends StatefulWidget {
 }
 
 class _NotificationsState extends State<Notifications> {
-  @override
   List<dynamic> _viewnotification = [];
   void initState() {
     super.initState();
@@ -28,9 +27,8 @@ class _NotificationsState extends State<Notifications> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
-    
-
     return Scaffold(
         backgroundColor: Theme.of(context).brightness == Brightness.light
             ? kLightSecondaryColor
