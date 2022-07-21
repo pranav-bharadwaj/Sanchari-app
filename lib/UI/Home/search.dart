@@ -19,7 +19,7 @@ class _SearchState extends State<Search> {
     print(_busNumberController.text);
     FirebaseFirestore.instance
         .collection("BusLocationDetails")
-        .where("BusStops", arrayContains: _busNumberController.text)
+        .where("BusNumber", isEqualTo: _busNumberController.text)
         .snapshots()
         .listen((value) {
       print(value.size);
@@ -137,9 +137,12 @@ class _SearchState extends State<Search> {
                                         bool flag = false;
                                         FirebaseFirestore.instance
                                             .collection("BookmarksUser")
-                                            .where("BusNumber",
-                                                isEqualTo: FirebaseAuth
+                                            .where("UserId",
+                                                isNotEqualTo: FirebaseAuth
                                                     .instance.currentUser?.uid)
+                                            .where("UserId",
+                                                isEqualTo:
+                                                    _buses.first['BusNumber'])
                                             .get()
                                             .then((value) => {
                                                   if (value.docs
